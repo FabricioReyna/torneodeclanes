@@ -16,6 +16,9 @@
       --text-main: #f4f5f7;
       --text-soft: #c8cbe0;
       --gold: #ffd24a;
+      --gold-soft: #ffec9d;
+      --blue: #73d0ff;
+      --rose: #ffa8c9;
       --border: #2e3152;
       --ok: #6af0b6;
       --warn: #f8cb57;
@@ -44,6 +47,18 @@
       width: min(94%, 1180px);
       margin: 0 auto;
       padding: 2rem 0 3rem;
+    }
+
+    .hero-band {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(900px 260px at 10% -10%, rgba(255, 210, 74, 0.16), transparent 65%),
+        radial-gradient(900px 260px at 95% 110%, rgba(115, 208, 255, 0.16), transparent 60%),
+        linear-gradient(160deg, rgba(24, 24, 36, 0.96), rgba(21, 20, 35, 0.92));
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+      box-shadow: var(--shadow);
     }
 
     .head {
@@ -103,6 +118,62 @@
       box-shadow: var(--shadow);
     }
 
+    .podium {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .podium-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem;
+      background: linear-gradient(145deg, rgba(33, 34, 52, 0.95), rgba(26, 27, 42, 0.95));
+    }
+
+    .podium-card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.35rem;
+    }
+
+    .podium-card p {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .podium-card small {
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    .podium-first {
+      border-color: rgba(255, 210, 74, 0.65);
+      box-shadow: 0 0 24px rgba(255, 210, 74, 0.16);
+    }
+
+    .podium-first h3 {
+      color: var(--gold-soft);
+    }
+
+    .podium-second {
+      border-color: rgba(115, 208, 255, 0.5);
+    }
+
+    .podium-second h3 {
+      color: var(--blue);
+    }
+
+    .podium-third {
+      border-color: rgba(255, 168, 201, 0.5);
+    }
+
+    .podium-third h3 {
+      color: var(--rose);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -132,6 +203,10 @@
       background: rgba(255, 255, 255, 0.04);
     }
 
+    tbody tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
     .col-rank,
     .col-score {
       text-align: center;
@@ -140,6 +215,14 @@
 
     .top3 {
       background: linear-gradient(90deg, rgba(255, 210, 74, 0.17), rgba(255, 210, 74, 0));
+    }
+
+    .leader-row {
+      background: linear-gradient(90deg, rgba(255, 210, 74, 0.3), rgba(255, 210, 74, 0.05));
+    }
+
+    .leader-row td {
+      font-weight: 800;
     }
 
     .footer-note {
@@ -156,21 +239,45 @@
       .legend {
         font-size: 0.8rem;
       }
+
+      .podium {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <main class="container">
-    <header class="head">
-      <div>
-        <h1 class="title">Tabla de Puntajes - Rondas de Hoy</h1>
-        <p class="subtitle">ARQUICRAFT | Clasificacion general por total</p>
+    <section class="hero-band">
+      <header class="head">
+        <div>
+          <h1 class="title">Tabla de Puntajes - Rondas de Hoy</h1>
+          <p class="subtitle">ARQUICRAFT | Clasificacion general por total</p>
+        </div>
+        <div class="legend">
+          <span class="chip ok">Top 3 resaltado</span>
+          <span class="chip warn">Total = R1 + R2 + R3</span>
+        </div>
+      </header>
+
+      <div class="podium" aria-label="Podio de la jornada">
+        <article class="podium-card podium-first">
+          <h3>1er lugar</h3>
+          <p>Hermandad</p>
+          <small>28 puntos</small>
+        </article>
+        <article class="podium-card podium-second">
+          <h3>2do lugar</h3>
+          <p>boanos</p>
+          <small>28 puntos</small>
+        </article>
+        <article class="podium-card podium-third">
+          <h3>3er lugar</h3>
+          <p>lobos</p>
+          <small>27 puntos</small>
+        </article>
       </div>
-      <div class="legend">
-        <span class="chip ok">Top 3 resaltado</span>
-        <span class="chip warn">Total = R1 + R2 + R3</span>
-      </div>
-    </header>
+    </section>
 
     <section class="table-wrap" aria-label="Puntajes de rondas de hoy">
       <table>
@@ -185,8 +292,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="top3"><td class="col-rank">1</td><td>boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
-          <tr class="top3"><td class="col-rank">2</td><td>hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
+          <tr class="top3 leader-row"><td class="col-rank">1</td><td>hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
+          <tr class="top3"><td class="col-rank">2</td><td>boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
           <tr class="top3"><td class="col-rank">3</td><td>lobos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">27</td></tr>
           <tr><td class="col-rank">4</td><td>cachorros</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">24</td></tr>
           <tr><td class="col-rank">5</td><td>mafia de zafiro</td><td class="col-score">9</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">24</td></tr>
