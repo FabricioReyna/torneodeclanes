@@ -110,6 +110,47 @@
       color: var(--warn);
     }
 
+    .edit-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin: 0.2rem 0 1rem;
+      align-items: center;
+    }
+
+    .action-btn {
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, rgba(42, 43, 66, 0.95), rgba(30, 31, 48, 0.95));
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 0.55rem 0.8rem;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, filter 160ms ease, border-color 160ms ease;
+    }
+
+    .action-btn:hover,
+    .action-btn:focus-visible {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      border-color: rgba(255, 210, 74, 0.5);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      filter: none;
+    }
+
+    .toolbar-note {
+      color: var(--text-soft);
+      font-size: 0.83rem;
+      font-weight: 700;
+      margin-left: 0.2rem;
+    }
+
     .table-wrap {
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -225,6 +266,13 @@
       font-weight: 800;
     }
 
+    td.clan-name.editable {
+      outline: 1px dashed rgba(255, 210, 74, 0.55);
+      background: rgba(255, 210, 74, 0.1);
+      border-radius: 6px;
+      cursor: text;
+    }
+
     .footer-note {
       margin-top: 0.9rem;
       color: var(--text-soft);
@@ -263,21 +311,28 @@
       <div class="podium" aria-label="Podio de la jornada">
         <article class="podium-card podium-first">
           <h3>1er lugar</h3>
-          <p>Hermandad</p>
+          <p id="podium-first-name">Hermandad</p>
           <small>28 puntos</small>
         </article>
         <article class="podium-card podium-second">
           <h3>2do lugar</h3>
-          <p>boanos</p>
+          <p id="podium-second-name">boanos</p>
           <small>28 puntos</small>
         </article>
         <article class="podium-card podium-third">
           <h3>3er lugar</h3>
-          <p>lobos</p>
+          <p id="podium-third-name">lobos</p>
           <small>27 puntos</small>
         </article>
       </div>
     </section>
+
+    <div class="edit-toolbar" aria-label="Edicion de nombres de clanes">
+      <button id="btn-edit" class="action-btn" type="button">Editar nombres</button>
+      <button id="btn-save" class="action-btn" type="button" disabled>Guardar cambios</button>
+      <button id="btn-reset" class="action-btn" type="button">Restablecer</button>
+      <span id="toolbar-status" class="toolbar-note">Puedes editar los nombres cuando quieras.</span>
+    </div>
 
     <section class="table-wrap" aria-label="Puntajes de rondas de hoy">
       <table>
@@ -292,35 +347,162 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="top3 leader-row"><td class="col-rank">1</td><td>hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
-          <tr class="top3"><td class="col-rank">2</td><td>boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
-          <tr class="top3"><td class="col-rank">3</td><td>lobos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">27</td></tr>
-          <tr><td class="col-rank">4</td><td>cachorros</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">24</td></tr>
-          <tr><td class="col-rank">5</td><td>mafia de zafiro</td><td class="col-score">9</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">24</td></tr>
-          <tr><td class="col-rank">6</td><td>lumina</td><td class="col-score">7</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">22</td></tr>
-          <tr><td class="col-rank">7</td><td>Vigilia alba</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">6</td><td class="col-score">22</td></tr>
-          <tr><td class="col-rank">8</td><td>bloodate</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">9</td><td>neozenith</td><td class="col-score">7</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">10</td><td>nianpiros</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">11</td><td>valhalla</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">12</td><td>dominican</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">13</td><td>oldcraftianos</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">14</td><td>winterfell</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">15</td><td>colmillos del alb</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">17</td></tr>
-          <tr><td class="col-rank">16</td><td>sombras noctur</td><td class="col-score">5</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">17</td></tr>
-          <tr><td class="col-rank">17</td><td>colmillos noc</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">16</td></tr>
-          <tr><td class="col-rank">18</td><td>impac celestial</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">16</td></tr>
-          <tr><td class="col-rank">19</td><td>mafia del amor</td><td class="col-score">4</td><td class="col-score">6</td><td class="col-score">4</td><td class="col-score">14</td></tr>
-          <tr><td class="col-rank">20</td><td>Copper owls</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">13</td></tr>
-          <tr><td class="col-rank">21</td><td>mafia empire</td><td class="col-score">4</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">12</td></tr>
-          <tr><td class="col-rank">22</td><td>v0rth1x</td><td class="col-score">3</td><td class="col-score">5</td><td class="col-score">4</td><td class="col-score">12</td></tr>
-          <tr><td class="col-rank">23</td><td>voidheon</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">9</td></tr>
-          <tr><td class="col-rank">24</td><td>nakano</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">2</td><td class="col-score">8</td></tr>
+          <tr class="top3 leader-row"><td class="col-rank">1</td><td class="clan-name">hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
+          <tr class="top3"><td class="col-rank">2</td><td class="clan-name">boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
+          <tr class="top3"><td class="col-rank">3</td><td class="clan-name">lobos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">27</td></tr>
+          <tr><td class="col-rank">4</td><td class="clan-name">cachorros</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">24</td></tr>
+          <tr><td class="col-rank">5</td><td class="clan-name">mafia de zafiro</td><td class="col-score">9</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">24</td></tr>
+          <tr><td class="col-rank">6</td><td class="clan-name">lumina</td><td class="col-score">7</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">22</td></tr>
+          <tr><td class="col-rank">7</td><td class="clan-name">Vigilia alba</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">6</td><td class="col-score">22</td></tr>
+          <tr><td class="col-rank">8</td><td class="clan-name">bloodate</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">9</td><td class="clan-name">neozenith</td><td class="col-score">7</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">10</td><td class="clan-name">nianpiros</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">11</td><td class="clan-name">valhalla</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">12</td><td class="clan-name">dominican</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">13</td><td class="clan-name">oldcraftianos</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">14</td><td class="clan-name">winterfell</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">15</td><td class="clan-name">colmillos del alb</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">17</td></tr>
+          <tr><td class="col-rank">16</td><td class="clan-name">sombras noctur</td><td class="col-score">5</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">17</td></tr>
+          <tr><td class="col-rank">17</td><td class="clan-name">colmillos noc</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">16</td></tr>
+          <tr><td class="col-rank">18</td><td class="clan-name">impac celestial</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">16</td></tr>
+          <tr><td class="col-rank">19</td><td class="clan-name">mafia del amor</td><td class="col-score">4</td><td class="col-score">6</td><td class="col-score">4</td><td class="col-score">14</td></tr>
+          <tr><td class="col-rank">20</td><td class="clan-name">Copper owls</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">13</td></tr>
+          <tr><td class="col-rank">21</td><td class="clan-name">mafia empire</td><td class="col-score">4</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">12</td></tr>
+          <tr><td class="col-rank">22</td><td class="clan-name">v0rth1x</td><td class="col-score">3</td><td class="col-score">5</td><td class="col-score">4</td><td class="col-score">12</td></tr>
+          <tr><td class="col-rank">23</td><td class="clan-name">voidheon</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">9</td></tr>
+          <tr><td class="col-rank">24</td><td class="clan-name">nakano</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">2</td><td class="col-score">8</td></tr>
         </tbody>
       </table>
     </section>
 
-    <p class="footer-note">Nota: Tabla ordenada por puntaje total de mayor a menor.</p>
+    <p class="footer-note">Nota: Tabla ordenada por puntaje total de mayor a menor. Los nombres editados se guardan en tu navegador.</p>
   </main>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "tablaHoyClanNamesV1";
+      const rows = Array.from(document.querySelectorAll("tbody tr"));
+      const firstNameEl = document.getElementById("podium-first-name");
+      const secondNameEl = document.getElementById("podium-second-name");
+      const thirdNameEl = document.getElementById("podium-third-name");
+      const btnEdit = document.getElementById("btn-edit");
+      const btnSave = document.getElementById("btn-save");
+      const btnReset = document.getElementById("btn-reset");
+      const status = document.getElementById("toolbar-status");
+
+      const clanCells = rows.map((row) => row.querySelector("td.clan-name"));
+
+      const normalizeText = (value) => value.replace(/\s+/g, " ").trim();
+
+      const getRowKey = (row) => {
+        const rankCell = row.querySelector("td.col-rank");
+        return rankCell ? normalizeText(rankCell.textContent) : "";
+      };
+
+      const syncPodiumNames = () => {
+        if (rows[0] && firstNameEl) {
+          firstNameEl.textContent = normalizeText(rows[0].querySelector("td.clan-name").textContent);
+        }
+        if (rows[1] && secondNameEl) {
+          secondNameEl.textContent = normalizeText(rows[1].querySelector("td.clan-name").textContent);
+        }
+        if (rows[2] && thirdNameEl) {
+          thirdNameEl.textContent = normalizeText(rows[2].querySelector("td.clan-name").textContent);
+        }
+      };
+
+      clanCells.forEach((cell) => {
+        cell.dataset.original = normalizeText(cell.textContent);
+        cell.contentEditable = "false";
+
+        cell.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+          }
+        });
+
+        cell.addEventListener("blur", () => {
+          const clean = normalizeText(cell.textContent);
+          cell.textContent = clean || cell.dataset.original;
+        });
+      });
+
+      const setEditing = (enabled) => {
+        clanCells.forEach((cell) => {
+          cell.contentEditable = enabled ? "true" : "false";
+          cell.classList.toggle("editable", enabled);
+        });
+        btnEdit.disabled = enabled;
+        btnSave.disabled = !enabled;
+        status.textContent = enabled
+          ? "Modo edicion activo: haz clic en un nombre y escribelo."
+          : "Puedes editar los nombres cuando quieras.";
+      };
+
+      const saveChanges = () => {
+        const payload = {};
+        rows.forEach((row) => {
+          const key = getRowKey(row);
+          const nameCell = row.querySelector("td.clan-name");
+          const value = normalizeText(nameCell.textContent) || nameCell.dataset.original;
+          nameCell.textContent = value;
+          payload[key] = value;
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        syncPodiumNames();
+        setEditing(false);
+        status.textContent = "Cambios guardados correctamente.";
+      };
+
+      const restoreOriginals = () => {
+        clanCells.forEach((cell) => {
+          cell.textContent = cell.dataset.original;
+        });
+        localStorage.removeItem(STORAGE_KEY);
+        syncPodiumNames();
+        setEditing(false);
+        status.textContent = "Nombres restablecidos al valor original.";
+      };
+
+      const applySavedNames = () => {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          syncPodiumNames();
+          return;
+        }
+
+        try {
+          const saved = JSON.parse(raw);
+          rows.forEach((row) => {
+            const key = getRowKey(row);
+            const nameCell = row.querySelector("td.clan-name");
+            if (saved[key]) {
+              nameCell.textContent = normalizeText(saved[key]);
+            }
+          });
+          syncPodiumNames();
+        } catch (error) {
+          localStorage.removeItem(STORAGE_KEY);
+          syncPodiumNames();
+        }
+      };
+
+      btnEdit.addEventListener("click", () => {
+        setEditing(true);
+      });
+
+      btnSave.addEventListener("click", () => {
+        saveChanges();
+      });
+
+      btnReset.addEventListener("click", () => {
+        restoreOriginals();
+      });
+
+      applySavedNames();
+      setEditing(false);
+    })();
+  </script>
 </body>
 </html>
