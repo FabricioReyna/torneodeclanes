@@ -273,8 +273,8 @@ router.post("/vote", async (req, res) => {
       return res.status(400).json({ message: "El nombre del juez es demasiado corto." });
     }
 
-    if (!Number.isInteger(numericScore) || numericScore < 1 || numericScore > 10) {
-      return res.status(400).json({ message: "El puntaje debe ser un numero entero entre 1 y 10." });
+    if (!Number.isFinite(numericScore) || numericScore < 1 || numericScore > 10) {
+      return res.status(400).json({ message: "El puntaje debe ser un numero entre 1 y 10. Se permiten decimales." });
     }
 
     const clan = await Clan.findById(clanId);

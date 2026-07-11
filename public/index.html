@@ -50,6 +50,16 @@
       overflow-x: hidden;
     }
 
+    body.judges-only header.hero,
+    body.judges-only section:not(#jueces),
+    body.judges-only footer.footer {
+      display: none !important;
+    }
+
+    body.judges-only main {
+      padding: 2rem 0;
+    }
+
     body::before {
       content: "";
       position: fixed;
@@ -565,7 +575,7 @@
     }
   </style>
 </head>
-<body>
+<body class="judges-only">
   <header class="hero" id="inicio">
     <div class="container">
       <div class="hero-content">
@@ -763,9 +773,8 @@
               <div class="score-grid">
                 <div class="input-wrap">
                   <label for="scoreValue">Puntaje (1 a 10)</label>
-                  <input class="login-input" id="scoreValue" type="range" min="1" max="10" value="8" />
+                  <input class="login-input" id="scoreValue" type="number" min="1" max="10" step="0.1" value="8.0" required />
                 </div>
-                <div class="score-value" id="scoreValueLabel">8</div>
               </div>
 
               <div class="admin-actions">
@@ -806,7 +815,6 @@
     const judgeDisplay = document.getElementById("judgeDisplay");
     const scoreClan = document.getElementById("scoreClan");
     const scoreValue = document.getElementById("scoreValue");
-    const scoreValueLabel = document.getElementById("scoreValueLabel");
     const judgeStatus = document.getElementById("judgeStatus");
 
     function setStatus(element, text, ok) {
@@ -940,10 +948,6 @@
       setJudgeIdentity(judgeNameInput.value);
     });
 
-    scoreValue.addEventListener("input", function () {
-      scoreValueLabel.textContent = scoreValue.value;
-    });
-
     adminForm.addEventListener("submit", async function (event) {
       event.preventDefault();
 
@@ -1039,8 +1043,13 @@
       const clanId = scoreClan.value;
       const points = Number(scoreValue.value);
 
-      if (!judgeName || !clanId || !points) {
+      if (!judgeName || !clanId || !Number.isFinite(points)) {
         setStatus(judgeStatus, "Completa nombre del juez, clan y puntaje.", false);
+        return;
+      }
+
+      if (points < 1 || points > 10) {
+        setStatus(judgeStatus, "El puntaje debe estar entre 1 y 10. Se permiten decimales.", false);
         return;
       }
 
@@ -1050,7 +1059,7 @@
           body: JSON.stringify({
             judgeName,
             clanId,
-            score: points
+            score: Number(points.toFixed(1))
           })
         });
 
