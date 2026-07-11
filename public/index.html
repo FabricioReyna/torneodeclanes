@@ -457,6 +457,37 @@
       border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
+    .obs-links {
+      margin-top: 0.6rem;
+      padding: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(10, 11, 18, 0.7);
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .obs-links-title {
+      font-weight: 700;
+      color: #dce0ff;
+      font-size: 0.9rem;
+    }
+
+    .obs-link-row {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .obs-link-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .obs-link-input {
+      font-size: 0.84rem;
+    }
+
     .rank-list {
       display: grid;
       gap: 0.55rem;
@@ -781,6 +812,27 @@
                 <button class="cta" type="submit">Guardar Puntaje</button>
               </div>
 
+              <section class="obs-links" aria-label="Links de OBS">
+                <p class="obs-links-title">OBS para Stream</p>
+
+                <div class="obs-link-row">
+                  <label for="obsOverlayUrl">Overlay URL</label>
+                  <input class="login-input obs-link-input" id="obsOverlayUrl" type="text" readonly />
+                  <div class="obs-link-actions">
+                    <a class="cta-ghost" id="openObsLink" href="/obs-overlay.html" target="_blank" rel="noopener noreferrer">Abrir OBS</a>
+                    <button class="cta-ghost" id="copyOverlayBtn" type="button">Copiar Overlay</button>
+                  </div>
+                </div>
+
+                <div class="obs-link-row">
+                  <label for="obsApiUrl">API JSON OBS</label>
+                  <input class="login-input obs-link-input" id="obsApiUrl" type="text" readonly />
+                  <div class="obs-link-actions">
+                    <button class="cta-ghost" id="copyApiBtn" type="button">Copiar API</button>
+                  </div>
+                </div>
+              </section>
+
               <p class="login-status" id="judgeStatus" aria-live="polite"></p>
             </form>
           </article>
@@ -816,6 +868,11 @@
     const scoreClan = document.getElementById("scoreClan");
     const scoreValue = document.getElementById("scoreValue");
     const judgeStatus = document.getElementById("judgeStatus");
+    const obsOverlayUrl = document.getElementById("obsOverlayUrl");
+    const obsApiUrl = document.getElementById("obsApiUrl");
+    const openObsLink = document.getElementById("openObsLink");
+    const copyOverlayBtn = document.getElementById("copyOverlayBtn");
+    const copyApiBtn = document.getElementById("copyApiBtn");
 
     function setStatus(element, text, ok) {
       element.textContent = text;
@@ -849,6 +906,49 @@
       const cleanName = String(name || "").trim();
       judgeDisplay.textContent = cleanName || "Sin juez cargado";
       judgeSkin.src = getSkinUrl(cleanName);
+    }
+
+    function buildObsUrls(clanId) {
+      const origin = window.location.origin;
+      const cleanClanId = String(clanId || "").trim();
+
+      if (!cleanClanId) {
+        return {
+          overlay: `${origin}/obs-overlay.html`,
+          api: `${origin}/api/scores/obs-board`
+        };
+      }
+
+      const encodedClanId = encodeURIComponent(cleanClanId);
+      return {
+        overlay: `${origin}/obs-overlay.html?clanId=${encodedClanId}`,
+        api: `${origin}/api/scores/obs-board?clanId=${encodedClanId}`
+      };
+    }
+
+    function updateObsLinks() {
+      const links = buildObsUrls(scoreClan.value);
+      obsOverlayUrl.value = links.overlay;
+      obsApiUrl.value = links.api;
+      openObsLink.href = links.overlay;
+    }
+
+    async function copyToClipboard(text, successMessage) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const tempInput = document.createElement("textarea");
+          tempInput.value = text;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+        }
+        setStatus(judgeStatus, successMessage, true);
+      } catch (error) {
+        setStatus(judgeStatus, "No se pudo copiar el link al portapapeles.", false);
+      }
     }
 
     async function apiRequest(path, options = {}) {
@@ -886,6 +986,8 @@
       scoreClan.innerHTML = orderedClans
         .map((clan) => `<option value="${clan._id}">${clan.name}</option>`)
         .join("");
+
+      updateObsLinks();
     }
 
     function renderAdminClans(clans) {
@@ -946,6 +1048,18 @@
 
     judgeNameInput.addEventListener("input", function () {
       setJudgeIdentity(judgeNameInput.value);
+    });
+
+    scoreClan.addEventListener("change", function () {
+      updateObsLinks();
+    });
+
+    copyOverlayBtn.addEventListener("click", async function () {
+      await copyToClipboard(obsOverlayUrl.value, "Link de overlay copiado.");
+    });
+
+    copyApiBtn.addEventListener("click", async function () {
+      await copyToClipboard(obsApiUrl.value, "Link de API OBS copiado.");
     });
 
     adminForm.addEventListener("submit", async function (event) {
@@ -1075,8 +1189,10 @@
     });
 
     setJudgeIdentity("");
+    updateObsLinks();
     loadPublicClansForJudges().catch(() => {
       scoreClan.innerHTML = "<option value=''>No disponible</option>";
+      updateObsLinks();
     });
     trySessionLogin();
   </script>
