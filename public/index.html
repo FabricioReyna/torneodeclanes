@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ARQUICRAFT - El evento de construccion mas grande de DiosesMC" />
+  <title>ARQUICRAFT | Torneo de Construccion</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-1: #0b0b10;
+      --bg-2: #12121a;
+      --surface: #181824;
+      --surface-2: #202033;
+      --text-main: #f4f5f7;
+      --text-soft: #c8cbe0;
+      --gold: #ffd24a;
+      --gold-2: #f4b400;
+      --arcane: #6a5cff;
+      --arcane-2: #4b39ff;
+      --border: #2e3152;
+      --max-width: 1120px;
+      --radius: 18px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(1300px 700px at 85% -15%, rgba(106, 92, 255, 0.28), transparent 60%),
+        radial-gradient(900px 500px at 0% 100%, rgba(255, 210, 74, 0.12), transparent 55%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      color: var(--text-main);
+      line-height: 1.55;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 95%);
+      z-index: -1;
+    }
+
+    .container {
+      width: min(92%, var(--max-width));
+      margin-inline: auto;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 12% 10% auto;
+      height: 260px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(106, 92, 255, 0.35), rgba(255, 210, 74, 0.2));
+      filter: blur(60px);
+      z-index: -1;
+      animation: glow 4s ease-in-out infinite alternate;
+    }
+
+    .hero-content {
+      max-width: 840px;
+      animation: rise 800ms ease forwards;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .title {
+      font-family: "Press Start 2P", cursive;
+      font-size: clamp(1.8rem, 5vw, 4rem);
+      line-height: 1.2;
+      letter-spacing: 1px;
+      margin-bottom: 1.4rem;
+      color: var(--text-main);
+      text-shadow:
+        0 0 12px rgba(106, 92, 255, 0.55),
+        0 0 22px rgba(255, 210, 74, 0.3);
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: var(--text-soft);
+      margin-bottom: 2rem;
+      max-width: 55ch;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 0.95rem 1.4rem;
+      text-decoration: none;
+      color: #f7f7ff;
+      font-weight: 700;
+      background: linear-gradient(120deg, var(--arcane), var(--arcane-2));
+      box-shadow:
+        0 10px 25px rgba(75, 57, 255, 0.35),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 35px rgba(75, 57, 255, 0.45),
+        0 0 20px rgba(106, 92, 255, 0.4);
+      filter: brightness(1.08);
+    }
+
+    .panel {
+      background: linear-gradient(160deg, rgba(24, 24, 36, 0.95), rgba(21, 20, 35, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-family: "Press Start 2P", cursive;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .lead {
+      color: var(--text-soft);
+      max-width: 75ch;
+    }
+
+    .phases-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .phase-card {
+      background: linear-gradient(160deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .phase-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 210, 74, 0.5);
+    }
+
+    .phase-kicker {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .phase-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .phase-size {
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .prize-wrap {
+      display: grid;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .prize-highlight {
+      font-family: "Press Start 2P", cursive;
+      font-size: clamp(1.15rem, 4vw, 2rem);
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(255, 210, 74, 0.45);
+      line-height: 1.35;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .admin-card {
+      background: linear-gradient(160deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .admin-note {
+      color: var(--text-soft);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .input-wrap {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .input-wrap label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #d7d9ed;
+    }
+
+    .login-input {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #323556;
+      background: #10111a;
+      color: var(--text-main);
+      padding: 0.75rem 0.9rem;
+      font: inherit;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .login-input:focus {
+      border-color: rgba(106, 92, 255, 0.85);
+      box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.2);
+    }
+
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .cta-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      padding: 0.95rem 1.4rem;
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-main);
+      border: 1px solid rgba(255, 210, 74, 0.4);
+      background: linear-gradient(130deg, rgba(255, 210, 74, 0.1), rgba(255, 210, 74, 0.06));
+      transition: transform 180ms ease, filter 180ms ease;
+    }
+
+    .cta-ghost:hover,
+    .cta-ghost:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .login-status {
+      min-height: 1.4rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #79ffa5;
+    }
+
+    .error {
+      color: #ff8e9a;
+    }
+
+    .admin-panel {
+      display: none;
+      margin-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 1rem;
+      gap: 1rem;
+    }
+
+    .admin-panel.visible {
+      display: grid;
+    }
+
+    .admin-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-bottom: 0.7rem;
+    }
+
+    .clan-form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .clan-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .check-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-soft);
+      font-size: 0.9rem;
+    }
+
+    .clans-list {
+      display: grid;
+      gap: 0.55rem;
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 0.2rem;
+    }
+
+    .clan-item {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      background: rgba(8, 9, 14, 0.7);
+    }
+
+    .clan-meta {
+      font-size: 0.84rem;
+      color: var(--text-soft);
+    }
+
+    .mini-btn {
+      border: 1px solid rgba(255, 142, 154, 0.45);
+      color: #ffdbe0;
+      background: rgba(140, 40, 55, 0.25);
+      border-radius: 10px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mini-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .judges-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .judge-identity {
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(10, 11, 18, 0.7);
+    }
+
+    .judge-skin {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      image-rendering: pixelated;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: #0e0f16;
+    }
+
+    .judge-meta {
+      display: grid;
+      gap: 0.2rem;
+      color: var(--text-soft);
+      font-size: 0.88rem;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.7rem;
+      align-items: end;
+    }
+
+    .score-value {
+      min-width: 44px;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 0.6rem 0.4rem;
+      border-radius: 10px;
+      color: #10111a;
+      background: linear-gradient(130deg, var(--gold), #ffe689);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .rank-list {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.8rem;
+    }
+
+    .rank-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(8, 9, 14, 0.7);
+    }
+
+    .rank-pos {
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 60px;
+    }
+
+    .rank-score {
+      font-weight: 800;
+      color: #d7e6ff;
+      white-space: nowrap;
+    }
+
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.7rem;
+      font-size: 0.92rem;
+    }
+
+    .score-table th,
+    .score-table td {
+      text-align: left;
+      padding: 0.55rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .score-table th {
+      color: #dce0ff;
+      font-weight: 700;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .footer {
+      padding: 2.5rem 0 3rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 2.5rem;
+      color: var(--text-soft);
+    }
+
+    .footer .cta {
+      margin-bottom: 1rem;
+    }
+
+    .copy {
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      section {
+        padding: 4rem 0;
+      }
+
+      .phases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .judges-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .title {
+        letter-spacing: 0;
+      }
+
+      .clan-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glow {
+      from {
+        transform: translateY(0) scale(1);
+      }
+      to {
+        transform: translateY(-8px) scale(1.02);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="title">ARQUICRAFT</h1>
+        <p class="subtitle">El evento de construccion mas grande de DiosesMC</p>
+        <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSf0kjgxo99x16crjk5rznlXvkAmmse57MepPBj5cfeH17nkNA/viewform?pli=1" target="_blank" rel="noopener noreferrer" aria-label="Abrir formulario oficial de clanes">&iexcl;Inscribe a tu Clan Aqui!</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="info-title">
+      <div class="container panel">
+        <h2 class="section-title" id="info-title">Supervivencia y Talento Puro</h2>
+        <p class="lead">
+          ARQUICRAFT es un torneo 100% survival donde cada bloque cuenta. Nada de fly, nada de easy place:
+          solo estrategia, coordinacion de clan y talento real de construccion para dominar la arena.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="fases-title">
+      <div class="container">
+        <h2 class="section-title" id="fases-title">Sistema de Fases</h2>
+        <div class="phases-grid">
+          <article class="phase-card" aria-label="Fase 1">
+            <p class="phase-kicker">Tarjeta 1</p>
+            <h3 class="phase-title">Fase 1</h3>
+            <p class="phase-size">20x20</p>
+          </article>
+
+          <article class="phase-card" aria-label="La Escalada">
+            <p class="phase-kicker">Tarjeta 2</p>
+            <h3 class="phase-title">La Escalada</h3>
+            <p class="phase-size">50x50 y 100x100</p>
+          </article>
+
+          <article class="phase-card" aria-label="Gran Final">
+            <p class="phase-kicker">Tarjeta 3</p>
+            <h3 class="phase-title">Gran Final</h3>
+            <p class="phase-size">200x200</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="registro" aria-labelledby="premios-title">
+      <div class="container panel prize-wrap">
+        <h2 class="section-title" id="premios-title">Premios y Fianza</h2>
+        <p class="prize-highlight">75 MILLONES DE MONEDAS</p>
+        <p class="lead">
+          Para participar, cada clan debe presentar una fianza obligatoria de 4 Millones in-game.
+          Esta fianza se devuelve al finalizar la competencia segun reglamento oficial.
+        </p>
+      </div>
+    </section>
+
+    <section id="admin" aria-labelledby="admin-title">
+      <div class="container panel">
+        <h2 class="section-title" id="admin-title">Login de Administracion</h2>
+        <div class="admin-grid">
+          <article class="admin-card">
+            <h3>Acceso al Panel del Torneo</h3>
+            <p class="admin-note">
+              Ingresa como staff para administrar clanes y validar registros del torneo.
+            </p>
+
+            <form class="login-form" id="adminLoginForm" novalidate>
+              <div class="input-wrap">
+                <label for="adminUser">Usuario Admin</label>
+                <input class="login-input" id="adminUser" name="adminUser" type="text" autocomplete="username" required />
+              </div>
+
+              <div class="input-wrap">
+                <label for="adminPass">Contrasena</label>
+                <input class="login-input" id="adminPass" name="adminPass" type="password" autocomplete="current-password" required />
+              </div>
+
+              <div class="admin-actions">
+                <button class="cta" type="submit">Entrar al Panel</button>
+                <a class="cta-ghost" href="https://docs.google.com/forms/d/e/1FAIpQLSf0kjgxo99x16crjk5rznlXvkAmmse57MepPBj5cfeH17nkNA/viewform?pli=1" target="_blank" rel="noopener noreferrer">
+                  Formulario de Clanes
+                </a>
+              </div>
+
+              <p class="login-status" id="loginStatus" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <article class="admin-card">
+            <h3>Gestion de Inscripciones</h3>
+            <p class="admin-note">
+              El formulario esta enlazado a la pagina para que cada clan se registre desde aqui.
+              Al confirmar acceso, puedes abrir el formulario y revisar las entradas en tiempo real.
+            </p>
+            <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSf0kjgxo99x16crjk5rznlXvkAmmse57MepPBj5cfeH17nkNA/viewform?pli=1" target="_blank" rel="noopener noreferrer">
+              Abrir Registro Oficial
+            </a>
+
+            <section class="admin-panel" id="adminPanel" aria-label="Panel de clanes">
+              <div>
+                <p class="admin-subtitle">Panel activo: crea y administra clanes del torneo.</p>
+                <form class="clan-form" id="clanForm" novalidate>
+                  <div class="clan-form-grid">
+                    <div class="input-wrap">
+                      <label for="clanName">Nombre del Clan</label>
+                      <input class="login-input" id="clanName" type="text" required />
+                    </div>
+                    <div class="input-wrap">
+                      <label for="clanTag">Tag</label>
+                      <input class="login-input" id="clanTag" type="text" maxlength="8" required />
+                    </div>
+                    <div class="input-wrap">
+                      <label for="clanLeader">Lider</label>
+                      <input class="login-input" id="clanLeader" type="text" required />
+                    </div>
+                    <div class="input-wrap">
+                      <label for="clanMembers">Miembros</label>
+                      <input class="login-input" id="clanMembers" type="number" min="1" value="5" required />
+                    </div>
+                  </div>
+
+                  <div class="clan-form-grid">
+                    <div class="input-wrap">
+                      <label for="clanPhase">Fase</label>
+                      <select class="login-input" id="clanPhase">
+                        <option>Fase 1</option>
+                        <option>La Escalada</option>
+                        <option>Gran Final</option>
+                      </select>
+                    </div>
+                    <div class="input-wrap">
+                      <label for="clanNotes">Notas</label>
+                      <input class="login-input" id="clanNotes" type="text" maxlength="350" />
+                    </div>
+                  </div>
+
+                  <label class="check-wrap" for="clanBond">
+                    <input id="clanBond" type="checkbox" />
+                    Fianza pagada (4M in-game)
+                  </label>
+
+                  <div class="admin-actions">
+                    <button class="cta" type="submit">Guardar Clan</button>
+                    <button class="cta-ghost" type="button" id="refreshClans">Actualizar Lista</button>
+                  </div>
+                  <p class="login-status" id="clanStatus" aria-live="polite"></p>
+                </form>
+              </div>
+
+              <div>
+                <p class="admin-subtitle">Clanes registrados</p>
+                <div class="clans-list" id="clansList"></div>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="jueces" aria-labelledby="judges-title">
+      <div class="container panel">
+        <h2 class="section-title" id="judges-title">Panel de Jueces</h2>
+        <div class="judges-grid">
+          <article class="admin-card">
+            <h3>Registrar Puntaje</h3>
+            <p class="admin-note">
+              Cada juez ingresa su nombre y puntua clanes con una escala del 1 al 10.
+            </p>
+
+            <form class="clan-form" id="judgeForm" novalidate>
+              <div class="input-wrap">
+                <label for="judgeNameInput">Nombre del juez</label>
+                <input class="login-input" id="judgeNameInput" type="text" maxlength="40" required />
+              </div>
+
+              <div class="judge-identity" id="judgeIdentity">
+                <img
+                  class="judge-skin"
+                  id="judgeSkin"
+                  src="https://mc-heads.net/avatar/Steve/96"
+                  alt="Skin del juez"
+                />
+                <div class="judge-meta">
+                  <strong id="judgeDisplay">Sin juez cargado</strong>
+                  <span>La cabeza usa el nombre del juez; si no existe skin, se muestra Steve.</span>
+                </div>
+              </div>
+
+              <div class="input-wrap">
+                <label for="scoreClan">Clan a puntuar</label>
+                <select class="login-input" id="scoreClan" required></select>
+              </div>
+
+              <div class="score-grid">
+                <div class="input-wrap">
+                  <label for="scoreValue">Puntaje (1 a 10)</label>
+                  <input class="login-input" id="scoreValue" type="range" min="1" max="10" value="8" />
+                </div>
+                <div class="score-value" id="scoreValueLabel">8</div>
+              </div>
+
+              <div class="admin-actions">
+                <button class="cta" type="submit">Guardar Puntaje</button>
+              </div>
+
+              <p class="login-status" id="judgeStatus" aria-live="polite"></p>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a class="cta" href="#" onclick="window.alert('Proximamente: enlace al Discord Oficial de DiosesMC.'); return false;">
+        Unete al Discord Oficial
+      </a>
+      <p class="copy">&copy; 2026 DiosesMC - Creado por Boantek</p>
+    </div>
+  </footer>
+
+  <script>
+    const apiBase = "/api";
+    const storageKey = "arquicraft_admin_token";
+
+    const adminForm = document.getElementById("adminLoginForm");
+    const loginStatus = document.getElementById("loginStatus");
+    const adminPanel = document.getElementById("adminPanel");
+    const clanForm = document.getElementById("clanForm");
+    const clanStatus = document.getElementById("clanStatus");
+    const clansList = document.getElementById("clansList");
+    const refreshClansBtn = document.getElementById("refreshClans");
+    const judgeForm = document.getElementById("judgeForm");
+    const judgeNameInput = document.getElementById("judgeNameInput");
+    const judgeSkin = document.getElementById("judgeSkin");
+    const judgeDisplay = document.getElementById("judgeDisplay");
+    const scoreClan = document.getElementById("scoreClan");
+    const scoreValue = document.getElementById("scoreValue");
+    const scoreValueLabel = document.getElementById("scoreValueLabel");
+    const judgeStatus = document.getElementById("judgeStatus");
+
+    function setStatus(element, text, ok) {
+      element.textContent = text;
+      element.className = ok ? "login-status ok" : "login-status error";
+    }
+
+    function getToken() {
+      return localStorage.getItem(storageKey);
+    }
+
+    function setToken(token) {
+      localStorage.setItem(storageKey, token);
+    }
+
+    function showPanel() {
+      adminPanel.classList.add("visible");
+    }
+
+    function hidePanel() {
+      adminPanel.classList.remove("visible");
+    }
+
+    function getSkinUrl(nick) {
+      if (!nick) {
+        return "https://mc-heads.net/avatar/Steve/96";
+      }
+      return `https://mc-heads.net/avatar/${encodeURIComponent(nick)}/96`;
+    }
+
+    function setJudgeIdentity(name) {
+      const cleanName = String(name || "").trim();
+      judgeDisplay.textContent = cleanName || "Sin juez cargado";
+      judgeSkin.src = getSkinUrl(cleanName);
+    }
+
+    async function apiRequest(path, options = {}) {
+      const token = getToken();
+      const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      };
+
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const response = await fetch(`${apiBase}${path}`, {
+        ...options,
+        headers
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = data.message || "Error en la solicitud";
+        throw new Error(message);
+      }
+
+      return data;
+    }
+
+    function renderScoreClanOptions(clans) {
+      if (!Array.isArray(clans) || clans.length === 0) {
+        scoreClan.innerHTML = "<option value=''>Sin clanes</option>";
+        return;
+      }
+
+      const orderedClans = [...clans].sort((a, b) => a.name.localeCompare(b.name, "es"));
+      scoreClan.innerHTML = orderedClans
+        .map((clan) => `<option value="${clan._id}">${clan.name}</option>`)
+        .join("");
+    }
+
+    function renderAdminClans(clans) {
+      if (!Array.isArray(clans) || clans.length === 0) {
+        clansList.innerHTML = "<p class='admin-note'>Aun no hay clanes cargados.</p>";
+        return;
+      }
+
+      const orderedClans = [...clans].sort((a, b) => a.name.localeCompare(b.name, "es"));
+      clansList.innerHTML = orderedClans
+        .map((clan) => {
+          const bondText = clan.paymentBond ? "Fianza: SI" : "Fianza: NO";
+          return `
+            <article class="clan-item">
+              <div>
+                <strong>${clan.name}</strong>
+                <p class="clan-meta">Lider: ${clan.leader} | Miembros: ${clan.membersCount} | ${clan.phase} | ${bondText}</p>
+              </div>
+              <button class="mini-btn" data-delete-id="${clan._id}">Eliminar</button>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    async function loadClans() {
+      const clans = await apiRequest("/clans", { method: "GET" });
+      renderAdminClans(clans);
+      renderScoreClanOptions(clans);
+    }
+
+    async function loadPublicClansForJudges() {
+      const clans = await apiRequest("/clans/public", { method: "GET" });
+      renderScoreClanOptions(clans);
+    }
+
+    async function trySessionLogin() {
+      const token = getToken();
+      if (!token) {
+        hidePanel();
+        return;
+      }
+
+      try {
+        await apiRequest("/auth/me", { method: "GET" });
+        showPanel();
+        await loadClans();
+      } catch (error) {
+        localStorage.removeItem(storageKey);
+        hidePanel();
+      }
+    }
+
+    judgeSkin.addEventListener("error", function () {
+      judgeSkin.onerror = null;
+      judgeSkin.src = "https://mc-heads.net/avatar/Steve/96";
+    });
+
+    judgeNameInput.addEventListener("input", function () {
+      setJudgeIdentity(judgeNameInput.value);
+    });
+
+    scoreValue.addEventListener("input", function () {
+      scoreValueLabel.textContent = scoreValue.value;
+    });
+
+    adminForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const user = document.getElementById("adminUser").value.trim();
+      const pass = document.getElementById("adminPass").value.trim();
+
+      if (!user || !pass) {
+        setStatus(loginStatus, "Completa usuario y contrasena para continuar.", false);
+        return;
+      }
+
+      try {
+        const data = await apiRequest("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ username: user, password: pass })
+        });
+
+        setToken(data.token);
+        setStatus(loginStatus, "Acceso concedido al panel de administracion.", true);
+        showPanel();
+        await loadClans();
+      } catch (error) {
+        hidePanel();
+        setStatus(loginStatus, error.message || "Credenciales invalidas.", false);
+      }
+    });
+
+    clanForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const payload = {
+        name: document.getElementById("clanName").value.trim(),
+        tag: document.getElementById("clanTag").value.trim(),
+        leader: document.getElementById("clanLeader").value.trim(),
+        membersCount: Number(document.getElementById("clanMembers").value),
+        phase: document.getElementById("clanPhase").value,
+        paymentBond: document.getElementById("clanBond").checked,
+        notes: document.getElementById("clanNotes").value.trim()
+      };
+
+      if (!payload.name || !payload.tag || !payload.leader || !payload.membersCount) {
+        setStatus(clanStatus, "Completa los campos obligatorios del clan.", false);
+        return;
+      }
+
+      try {
+        await apiRequest("/clans", {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        clanForm.reset();
+        document.getElementById("clanMembers").value = "5";
+        setStatus(clanStatus, "Clan guardado correctamente.", true);
+        await loadClans();
+      } catch (error) {
+        setStatus(clanStatus, error.message || "No se pudo guardar el clan.", false);
+      }
+    });
+
+    refreshClansBtn.addEventListener("click", async function () {
+      try {
+        await loadClans();
+        setStatus(clanStatus, "Lista actualizada.", true);
+      } catch (error) {
+        setStatus(clanStatus, error.message || "No se pudo actualizar la lista.", false);
+      }
+    });
+
+    clansList.addEventListener("click", async function (event) {
+      const deleteId = event.target.getAttribute("data-delete-id");
+      if (!deleteId) {
+        return;
+      }
+
+      const confirmed = window.confirm("Quieres eliminar este clan?");
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        await apiRequest(`/clans/${deleteId}`, { method: "DELETE" });
+        setStatus(clanStatus, "Clan eliminado.", true);
+        await loadClans();
+      } catch (error) {
+        setStatus(clanStatus, error.message || "No se pudo eliminar.", false);
+      }
+    });
+
+    judgeForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const judgeName = judgeNameInput.value.trim();
+      const clanId = scoreClan.value;
+      const points = Number(scoreValue.value);
+
+      if (!judgeName || !clanId || !points) {
+        setStatus(judgeStatus, "Completa nombre del juez, clan y puntaje.", false);
+        return;
+      }
+
+      try {
+        const result = await apiRequest("/scores/vote", {
+          method: "POST",
+          body: JSON.stringify({
+            judgeName,
+            clanId,
+            score: points
+          })
+        });
+
+        const warnings = Array.isArray(result.warnings) ? result.warnings : [];
+        if (warnings.length > 0) {
+          setStatus(judgeStatus, `Puntaje guardado con advertencias: ${warnings.join(" | ")}`, false);
+        } else {
+          setStatus(judgeStatus, result.message || "Puntaje guardado y exportado.", true);
+        }
+      } catch (error) {
+        setStatus(judgeStatus, error.message || "No se pudo guardar el puntaje.", false);
+      }
+    });
+
+    setJudgeIdentity("");
+    loadPublicClansForJudges().catch(() => {
+      scoreClan.innerHTML = "<option value=''>No disponible</option>";
+    });
+    trySessionLogin();
+  </script>
+</body>
+</html>

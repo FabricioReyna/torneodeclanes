@@ -1,0 +1,19 @@
+{
+  "name": "torneoclanes-functions",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.7.2",
+    "xlsx": "^0.18.5"
+  }
+}

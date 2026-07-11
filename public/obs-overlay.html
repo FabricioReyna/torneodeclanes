@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBS Overlay | ARQUICRAFT</title>
+  <style>
+    :root {
+      --bg: rgba(10, 12, 20, 0.86);
+      --panel: rgba(20, 23, 36, 0.92);
+      --line: rgba(255, 255, 255, 0.18);
+      --gold: #ffd24a;
+      --text: #f5f7ff;
+      --muted: #bec6e6;
+      --ok: #7cf7a2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: transparent;
+      padding: 10px;
+    }
+
+    .overlay {
+      width: min(980px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--bg);
+      backdrop-filter: blur(5px);
+      padding: 12px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .top h1 {
+      font-size: 1.05rem;
+      color: var(--gold);
+      letter-spacing: 0.6px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .input,
+    .btn {
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 0.92rem;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .judge-box,
+    .total-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 10px;
+      min-height: 145px;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .skin {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: #10131f;
+    }
+
+    .judge-name {
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-weight: 600;
+      max-width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .judge-score,
+    .total-score {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .total-label {
+      color: var(--ok);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 820px) {
+      .board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="top">
+      <h1 id="overlayTitle">Overlay de Jueces</h1>
+      <div class="controls">
+        <select id="clanSelect" class="input"></select>
+        <button id="refreshBtn" class="btn">Actualizar</button>
+      </div>
+    </div>
+
+    <div class="board">
+      <article class="judge-box">
+        <img id="skin1" class="skin" src="https://mc-heads.net/avatar/Steve/96" alt="Juez 1" />
+        <p id="name1" class="judge-name">Pendiente</p>
+        <p id="score1" class="judge-score">0</p>
+      </article>
+
+      <article class="judge-box">
+        <img id="skin2" class="skin" src="https://mc-heads.net/avatar/Steve/96" alt="Juez 2" />
+        <p id="name2" class="judge-name">Pendiente</p>
+        <p id="score2" class="judge-score">0</p>
+      </article>
+
+      <article class="judge-box">
+        <img id="skin3" class="skin" src="https://mc-heads.net/avatar/Steve/96" alt="Juez 3" />
+        <p id="name3" class="judge-name">Pendiente</p>
+        <p id="score3" class="judge-score">0</p>
+      </article>
+
+      <article class="total-box">
+        <p class="total-label">Suma Total</p>
+        <p id="totalScore" class="total-score">0</p>
+      </article>
+    </div>
+
+    <div class="meta">
+      <span id="selectedClan">Clan: -</span>
+      <span id="lastUpdate">Actualizado: -</span>
+    </div>
+  </div>
+
+  <script>
+    const clanSelect = document.getElementById("clanSelect");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const selectedClan = document.getElementById("selectedClan");
+    const lastUpdate = document.getElementById("lastUpdate");
+    const overlayTitle = document.getElementById("overlayTitle");
+
+    const judgeRefs = [
+      { skin: document.getElementById("skin1"), name: document.getElementById("name1"), score: document.getElementById("score1") },
+      { skin: document.getElementById("skin2"), name: document.getElementById("name2"), score: document.getElementById("score2") },
+      { skin: document.getElementById("skin3"), name: document.getElementById("name3"), score: document.getElementById("score3") }
+    ];
+
+    const totalScore = document.getElementById("totalScore");
+    const params = new URLSearchParams(window.location.search);
+    const presetClanId = params.get("clanId");
+
+    function fallbackSkin(img) {
+      img.onerror = null;
+      img.src = "https://mc-heads.net/avatar/Steve/96";
+    }
+
+    async function fetchJson(url) {
+      const response = await fetch(url);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.message || "No se pudo cargar datos.");
+      }
+      return data;
+    }
+
+    async function loadClans() {
+      const clans = await fetchJson("/api/clans/public");
+      clanSelect.innerHTML = clans
+        .map((clan) => `<option value="${clan._id}">${clan.name}</option>`)
+        .join("");
+
+      if (presetClanId) {
+        clanSelect.value = presetClanId;
+      }
+    }
+
+    function paintBoard(payload) {
+      const judges = Array.isArray(payload.judges) ? payload.judges : [];
+      for (let i = 0; i < judgeRefs.length; i += 1) {
+        const slot = judges[i] || { judgeName: "Pendiente", score: 0, skinUrl: "https://mc-heads.net/avatar/Steve/96" };
+        judgeRefs[i].name.textContent = slot.judgeName || "Pendiente";
+        judgeRefs[i].score.textContent = String(slot.score || 0);
+        judgeRefs[i].skin.src = slot.skinUrl || "https://mc-heads.net/avatar/Steve/96";
+        judgeRefs[i].skin.onerror = function () {
+          fallbackSkin(judgeRefs[i].skin);
+        };
+      }
+
+      totalScore.textContent = String(payload.totalScore || 0);
+      const clanName = payload.clan && payload.clan.name ? payload.clan.name : "-";
+      selectedClan.textContent = `Clan: ${clanName}`;
+      overlayTitle.textContent = `Overlay de Jueces | ${clanName}`;
+      lastUpdate.textContent = `Actualizado: ${new Date().toLocaleTimeString("es-DO")}`;
+    }
+
+    async function refreshBoard() {
+      const clanId = clanSelect.value;
+      if (!clanId) {
+        return;
+      }
+      const data = await fetchJson(`/api/scores/obs-board?clanId=${encodeURIComponent(clanId)}`);
+      paintBoard(data);
+    }
+
+    refreshBtn.addEventListener("click", function () {
+      refreshBoard().catch(() => {
+        lastUpdate.textContent = "Actualizado: error de carga";
+      });
+    });
+
+    clanSelect.addEventListener("change", function () {
+      const url = new URL(window.location.href);
+      url.searchParams.set("clanId", clanSelect.value);
+      window.history.replaceState({}, "", url.toString());
+      refreshBoard().catch(() => {
+        lastUpdate.textContent = "Actualizado: error de carga";
+      });
+    });
+
+    loadClans()
+      .then(refreshBoard)
+      .catch(() => {
+        lastUpdate.textContent = "Actualizado: no disponible";
+      });
+
+    setInterval(() => {
+      refreshBoard().catch(() => {});
+    }, 3000);
+  </script>
+</body>
+</html>
