@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puntajes de Hoy | ARQUICRAFT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #0b0b10;
+      --bg-2: #12121a;
+      --surface: #181824;
+      --surface-2: #202033;
+      --text-main: #f4f5f7;
+      --text-soft: #c8cbe0;
+      --gold: #ffd24a;
+      --border: #2e3152;
+      --ok: #6af0b6;
+      --warn: #f8cb57;
+      --radius: 16px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(1300px 700px at 85% -15%, rgba(106, 92, 255, 0.28), transparent 60%),
+        radial-gradient(900px 500px at 0% 100%, rgba(255, 210, 74, 0.12), transparent 55%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+
+    .container {
+      width: min(94%, 1180px);
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .title {
+      font-family: "Press Start 2P", cursive;
+      font-size: clamp(1rem, 3vw, 1.7rem);
+      line-height: 1.45;
+      text-shadow: 0 0 16px rgba(255, 210, 74, 0.2);
+    }
+
+    .subtitle {
+      color: var(--text-soft);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 0.6rem;
+    }
+
+    .legend {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .chip.ok {
+      border-color: rgba(106, 240, 182, 0.5);
+      color: var(--ok);
+    }
+
+    .chip.warn {
+      border-color: rgba(248, 203, 87, 0.5);
+      color: var(--warn);
+    }
+
+    .table-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, rgba(24, 24, 36, 0.95), rgba(21, 20, 35, 0.9));
+      overflow: auto;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(180deg, #292b42, #1f2133);
+      color: #ffffff;
+      font-size: 0.78rem;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    th,
+    td {
+      padding: 0.8rem 0.75rem;
+      border-bottom: 1px solid rgba(46, 49, 82, 0.7);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .col-rank,
+    .col-score {
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .top3 {
+      background: linear-gradient(90deg, rgba(255, 210, 74, 0.17), rgba(255, 210, 74, 0));
+    }
+
+    .footer-note {
+      margin-top: 0.9rem;
+      color: var(--text-soft);
+      font-size: 0.84rem;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding-top: 1.2rem;
+      }
+
+      .legend {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="head">
+      <div>
+        <h1 class="title">Tabla de Puntajes - Rondas de Hoy</h1>
+        <p class="subtitle">ARQUICRAFT | Clasificacion general por total</p>
+      </div>
+      <div class="legend">
+        <span class="chip ok">Top 3 resaltado</span>
+        <span class="chip warn">Total = R1 + R2 + R3</span>
+      </div>
+    </header>
+
+    <section class="table-wrap" aria-label="Puntajes de rondas de hoy">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-rank">#</th>
+            <th>Clan</th>
+            <th class="col-score">R1</th>
+            <th class="col-score">R2</th>
+            <th class="col-score">R3</th>
+            <th class="col-score">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top3"><td class="col-rank">1</td><td>boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
+          <tr class="top3"><td class="col-rank">2</td><td>hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
+          <tr class="top3"><td class="col-rank">3</td><td>lobos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">27</td></tr>
+          <tr><td class="col-rank">4</td><td>cachorros</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">24</td></tr>
+          <tr><td class="col-rank">5</td><td>mafia de zafiro</td><td class="col-score">9</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">24</td></tr>
+          <tr><td class="col-rank">6</td><td>lumina</td><td class="col-score">7</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">22</td></tr>
+          <tr><td class="col-rank">7</td><td>Vigilia alba</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">6</td><td class="col-score">22</td></tr>
+          <tr><td class="col-rank">8</td><td>bloodate</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">9</td><td>neozenith</td><td class="col-score">7</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">10</td><td>nianpiros</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">11</td><td>valhalla</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
+          <tr><td class="col-rank">12</td><td>dominican</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">13</td><td>oldcraftianos</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">14</td><td>winterfell</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">18</td></tr>
+          <tr><td class="col-rank">15</td><td>colmillos del alb</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">17</td></tr>
+          <tr><td class="col-rank">16</td><td>sombras noctur</td><td class="col-score">5</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">17</td></tr>
+          <tr><td class="col-rank">17</td><td>colmillos noc</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">16</td></tr>
+          <tr><td class="col-rank">18</td><td>impac celestial</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">16</td></tr>
+          <tr><td class="col-rank">19</td><td>mafia del amor</td><td class="col-score">4</td><td class="col-score">6</td><td class="col-score">4</td><td class="col-score">14</td></tr>
+          <tr><td class="col-rank">20</td><td>Copper</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">13</td></tr>
+          <tr><td class="col-rank">21</td><td>mafia empire</td><td class="col-score">4</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">12</td></tr>
+          <tr><td class="col-rank">22</td><td>v0rth1x</td><td class="col-score">3</td><td class="col-score">5</td><td class="col-score">4</td><td class="col-score">12</td></tr>
+          <tr><td class="col-rank">23</td><td>voidheon</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">9</td></tr>
+          <tr><td class="col-rank">24</td><td>nakano</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">2</td><td class="col-score">8</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="footer-note">Nota: Tabla ordenada por puntaje total de mayor a menor.</p>
+  </main>
+</body>
+</html>
