@@ -917,6 +917,7 @@
   </style>
 </head>
 <body>
+  <script src="/config.js"></script>
   <nav class="top-nav" aria-label="Navegacion principal">
     <div class="container">
       <a class="brand-mark" href="#inicio">ARQUICRAFT</a>
@@ -975,6 +976,7 @@
   </main>
 
   <script>
+    const API_BASE = window.ARQUICRAFT_CONFIG?.API_BASE_URL || "";
     const ADMIN_TOKEN_KEY = "arquicraft_admin_token";
     const statusBox = document.getElementById("publicAdminStatus");
     const toolbar = document.getElementById("adminToolbar");
@@ -1043,7 +1045,7 @@
       const { silent = false } = options;
 
       try {
-        const response = await fetch("/api/admin/ranking", {
+        const response = await fetch(`${API_BASE}/api/admin/ranking`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -1214,7 +1216,7 @@
       }
 
       try {
-        const response = await fetch(`/clanes-final.json?ts=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`${API_BASE}/clanes-final.json?ts=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error("No se pudo cargar el ranking");
 
         rankingData = await response.json();

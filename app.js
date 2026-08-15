@@ -18,8 +18,28 @@ function buildApp(options = {}) {
   const { serveStatic = true } = options;
 
   const app = express();
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8888",
+    "http://127.0.0.1:8888",
+    process.env.FRONTEND_URL,
+    process.env.NETLIFY_URL,
+    process.env.RENDER_EXTERNAL_URL
+  ].filter(Boolean);
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".netlify.app") || origin.endsWith(".onrender.com")) {
+          callback(null, true);
+          return;
+        }
+
+        callback(null, true);
+      }
+    })
+  );
   app.use(express.json());
 
   app.get("/api/health", (req, res) => {
