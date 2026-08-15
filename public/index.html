@@ -990,6 +990,7 @@
     let editingEnabled = false;
     let adminLoggedIn = false;
     let activeEditCell = null;
+    let liveRefreshTimer = null;
 
     function setLoginStatus(message, isError = false) {
       if (!statusBox) return;
@@ -1191,8 +1192,24 @@
       }
     }
 
+    function shouldPauseLiveRefresh() {
+      return Boolean(activeEditCell) || (document.activeElement && document.activeElement.classList && document.activeElement.classList.contains("score-editor"));
+    }
+
+    function startLiveRefresh() {
+      if (liveRefreshTimer) {
+        clearInterval(liveRefreshTimer);
+      }
+
+      liveRefreshTimer = setInterval(() => {
+        if (!shouldPauseLiveRefresh()) {
+          loadLandingRanking();
+        }
+      }, 4000);
+    }
+
     async function loadLandingRanking() {
-      if (activeEditCell) {
+      if (shouldPauseLiveRefresh()) {
         return;
       }
 
@@ -1286,7 +1303,7 @@
 
     loadLandingRanking();
     initAdminSession();
-    setInterval(loadLandingRanking, 4000);
+    startLiveRefresh();
   </script>
 </body>
 </html>
