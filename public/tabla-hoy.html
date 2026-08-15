@@ -303,38 +303,39 @@
           <p class="subtitle">ARQUICRAFT | Clasificacion general por total</p>
         </div>
         <div class="legend">
-          <span class="chip ok">Top 3 resaltado</span>
-          <span class="chip warn">Total = R1 + R2 + R3</span>
+          <span class="chip ok">Top 1 ganador</span>
+          <span class="chip warn">Puntaje permitido: 1 a 10</span>
         </div>
       </header>
 
       <div class="podium" aria-label="Podio de la jornada">
         <article class="podium-card podium-first">
           <h3>1er lugar</h3>
-          <p id="podium-first-name">Hermandad</p>
-          <small>28 puntos</small>
+          <p id="podium-first-name">Cargando...</p>
+          <small id="podium-first-score">0 puntos</small>
         </article>
         <article class="podium-card podium-second">
           <h3>2do lugar</h3>
-          <p id="podium-second-name">boanos</p>
-          <small>28 puntos</small>
+          <p id="podium-second-name">Cargando...</p>
+          <small id="podium-second-score">0 puntos</small>
         </article>
         <article class="podium-card podium-third">
           <h3>3er lugar</h3>
-          <p id="podium-third-name">lobos</p>
-          <small>27 puntos</small>
+          <p id="podium-third-name">Cargando...</p>
+          <small id="podium-third-score">0 puntos</small>
         </article>
       </div>
     </section>
 
-    <div class="edit-toolbar" aria-label="Edicion de nombres de clanes">
-      <button id="btn-edit" class="action-btn" type="button">Editar nombres</button>
+    <div class="edit-toolbar" aria-label="Edicion de puntajes del torneo">
+      <button id="btn-edit" class="action-btn" type="button">Editar puntajes</button>
       <button id="btn-save" class="action-btn" type="button" disabled>Guardar cambios</button>
       <button id="btn-reset" class="action-btn" type="button">Restablecer</button>
-      <span id="toolbar-status" class="toolbar-note">Puedes editar los nombres cuando quieras.</span>
+      <button id="btn-export" class="action-btn" type="button">Exportar JSON</button>
+      <span id="toolbar-status" class="toolbar-note">Solo el administrador puede modificar puntajes.</span>
     </div>
 
-    <section class="table-wrap" aria-label="Puntajes de rondas de hoy">
+    <section class="table-wrap" aria-label="Tabla de puntajes del torneo">
       <table>
         <thead>
           <tr>
@@ -346,162 +347,271 @@
             <th class="col-score">Total</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="top3 leader-row"><td class="col-rank">1</td><td class="clan-name">hermandad</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">9</td><td class="col-score">28</td></tr>
-          <tr class="top3"><td class="col-rank">2</td><td class="clan-name">boanos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">10</td><td class="col-score">28</td></tr>
-          <tr class="top3"><td class="col-rank">3</td><td class="clan-name">lobos</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">9</td><td class="col-score">27</td></tr>
-          <tr><td class="col-rank">4</td><td class="clan-name">cachorros</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">24</td></tr>
-          <tr><td class="col-rank">5</td><td class="clan-name">mafia de zafiro</td><td class="col-score">9</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">24</td></tr>
-          <tr><td class="col-rank">6</td><td class="clan-name">lumina</td><td class="col-score">7</td><td class="col-score">8</td><td class="col-score">7</td><td class="col-score">22</td></tr>
-          <tr><td class="col-rank">7</td><td class="clan-name">Vigilia alba</td><td class="col-score">8</td><td class="col-score">8</td><td class="col-score">6</td><td class="col-score">22</td></tr>
-          <tr><td class="col-rank">8</td><td class="clan-name">bloodate</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">9</td><td class="clan-name">neozenith</td><td class="col-score">7</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">10</td><td class="clan-name">nianpiros</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">11</td><td class="clan-name">valhalla</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">19</td></tr>
-          <tr><td class="col-rank">12</td><td class="clan-name">dominican</td><td class="col-score">7</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">13</td><td class="clan-name">oldcraftianos</td><td class="col-score">6</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">14</td><td class="clan-name">winterfell</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">6</td><td class="col-score">18</td></tr>
-          <tr><td class="col-rank">15</td><td class="clan-name">colmillos del alb</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">17</td></tr>
-          <tr><td class="col-rank">16</td><td class="clan-name">sombras noctur</td><td class="col-score">5</td><td class="col-score">7</td><td class="col-score">5</td><td class="col-score">17</td></tr>
-          <tr><td class="col-rank">17</td><td class="clan-name">colmillos noc</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">6</td><td class="col-score">16</td></tr>
-          <tr><td class="col-rank">18</td><td class="clan-name">impac celestial</td><td class="col-score">6</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">16</td></tr>
-          <tr><td class="col-rank">19</td><td class="clan-name">mafia del amor</td><td class="col-score">4</td><td class="col-score">6</td><td class="col-score">4</td><td class="col-score">14</td></tr>
-          <tr><td class="col-rank">20</td><td class="clan-name">Copper owls</td><td class="col-score">5</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">13</td></tr>
-          <tr><td class="col-rank">21</td><td class="clan-name">mafia empire</td><td class="col-score">4</td><td class="col-score">5</td><td class="col-score">3</td><td class="col-score">12</td></tr>
-          <tr><td class="col-rank">22</td><td class="clan-name">v0rth1x</td><td class="col-score">3</td><td class="col-score">5</td><td class="col-score">4</td><td class="col-score">12</td></tr>
-          <tr><td class="col-rank">23</td><td class="clan-name">voidheon</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">9</td></tr>
-          <tr><td class="col-rank">24</td><td class="clan-name">nakano</td><td class="col-score">3</td><td class="col-score">3</td><td class="col-score">2</td><td class="col-score">8</td></tr>
-        </tbody>
+        <tbody id="score-table-body"></tbody>
       </table>
     </section>
 
-    <p class="footer-note">Nota: Tabla ordenada por puntaje total de mayor a menor. Los nombres editados se guardan en tu navegador.</p>
+    <p class="footer-note">Nota: la tabla se ordena por total. El primer lugar gana la competencia. Los puntajes solo pueden cambiarse por el administrador.</p>
   </main>
 
   <script>
     (() => {
-      const STORAGE_KEY = "tablaHoyClanNamesV1";
-      const rows = Array.from(document.querySelectorAll("tbody tr"));
-      const firstNameEl = document.getElementById("podium-first-name");
-      const secondNameEl = document.getElementById("podium-second-name");
-      const thirdNameEl = document.getElementById("podium-third-name");
+      const SOURCE_URL = "/clanes-final.json";
+      const STORAGE_KEY = "tablaHoyScoresJsonV1";
+      const tokenKey = "arquicraft_admin_token";
+      const tbody = document.getElementById("score-table-body");
+      const status = document.getElementById("toolbar-status");
       const btnEdit = document.getElementById("btn-edit");
       const btnSave = document.getElementById("btn-save");
       const btnReset = document.getElementById("btn-reset");
-      const status = document.getElementById("toolbar-status");
+      const btnExport = document.getElementById("btn-export");
+      const firstNameEl = document.getElementById("podium-first-name");
+      const secondNameEl = document.getElementById("podium-second-name");
+      const thirdNameEl = document.getElementById("podium-third-name");
+      const firstScoreEl = document.getElementById("podium-first-score");
+      const secondScoreEl = document.getElementById("podium-second-score");
+      const thirdScoreEl = document.getElementById("podium-third-score");
 
-      const clanCells = rows.map((row) => row.querySelector("td.clan-name"));
+      let baseData = [];
+      let currentData = [];
+      let editingEnabled = false;
+      let isAdmin = false;
 
-      const normalizeText = (value) => value.replace(/\s+/g, " ").trim();
+      function clampScore(value, allowZero = false) {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return allowZero ? 0 : 1;
+        if (allowZero && num === 0) return 0;
+        return Math.min(10, Math.max(1, num));
+      }
 
-      const getRowKey = (row) => {
-        const rankCell = row.querySelector("td.col-rank");
-        return rankCell ? normalizeText(rankCell.textContent) : "";
-      };
+      function normalizeData(data) {
+        return (Array.isArray(data) ? data : []).map((clan) => {
+          const scores = clan && clan.scores ? clan.scores : {};
+          const r1 = clampScore(scores.R1 ?? 0, true);
+          const r2 = clampScore(scores.R2 ?? 0, true);
+          const r3 = clampScore(scores.R3 ?? 0, true);
 
-      const syncPodiumNames = () => {
-        if (rows[0] && firstNameEl) {
-          firstNameEl.textContent = normalizeText(rows[0].querySelector("td.clan-name").textContent);
-        }
-        if (rows[1] && secondNameEl) {
-          secondNameEl.textContent = normalizeText(rows[1].querySelector("td.clan-name").textContent);
-        }
-        if (rows[2] && thirdNameEl) {
-          thirdNameEl.textContent = normalizeText(rows[2].querySelector("td.clan-name").textContent);
-        }
-      };
+          return {
+            name: String(clan?.name || "Clan sin nombre").trim(),
+            scores: {
+              R1: r1,
+              R2: r2,
+              R3: r3
+            }
+          };
+        });
+      }
 
-      clanCells.forEach((cell) => {
-        cell.dataset.original = normalizeText(cell.textContent);
-        cell.contentEditable = "false";
+      function getTotal(clan) {
+        return (Number(clan.scores.R1) || 0) + (Number(clan.scores.R2) || 0) + (Number(clan.scores.R3) || 0);
+      }
 
-        cell.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
+      function sortClans(data) {
+        return [...data].sort((a, b) => {
+          const totalA = getTotal(a);
+          const totalB = getTotal(b);
+          if (totalB !== totalA) return totalB - totalA;
+          return a.name.localeCompare(b.name, "es");
+        });
+      }
+
+      function setStatus(message) {
+        status.textContent = message;
+      }
+
+      function renderPodium(rows) {
+        const top = rows.slice(0, 3);
+        const podium = [
+          { name: top[0]?.name || "-", score: top[0] ? getTotal(top[0]) : 0, elName: firstNameEl, elScore: firstScoreEl },
+          { name: top[1]?.name || "-", score: top[1] ? getTotal(top[1]) : 0, elName: secondNameEl, elScore: secondScoreEl },
+          { name: top[2]?.name || "-", score: top[2] ? getTotal(top[2]) : 0, elName: thirdNameEl, elScore: thirdScoreEl }
+        ];
+
+        podium.forEach((item, index) => {
+          item.elName.textContent = item.name;
+          item.elScore.textContent = `${item.score} puntos`;
+          if (index === 0) {
+            item.elName.style.color = "#ffd24a";
+          } else if (index === 1) {
+            item.elName.style.color = "#73d0ff";
+          } else {
+            item.elName.style.color = "#ffa8c9";
           }
         });
+      }
 
-        cell.addEventListener("blur", () => {
-          const clean = normalizeText(cell.textContent);
-          cell.textContent = clean || cell.dataset.original;
-        });
-      });
+      function renderTable() {
+        const rows = sortClans(currentData);
+        tbody.innerHTML = rows.map((clan, index) => {
+          const total = getTotal(clan);
+          const rowClass = index < 3 ? "top3" : "";
+          const leaderClass = index === 0 ? "leader-row" : "";
+          return `
+            <tr class="${rowClass} ${leaderClass}">
+              <td class="col-rank">${index + 1}</td>
+              <td class="clan-name">${clan.name}</td>
+              <td class="col-score">
+                ${editingEnabled && isAdmin
+                  ? `<input type="number" min="1" max="10" step="0.1" value="${clan.scores.R1}" data-clan-name="${clan.name}" data-score="R1" class="score-input">`
+                  : clan.scores.R1}
+              </td>
+              <td class="col-score">
+                ${editingEnabled && isAdmin
+                  ? `<input type="number" min="1" max="10" step="0.1" value="${clan.scores.R2}" data-clan-name="${clan.name}" data-score="R2" class="score-input">`
+                  : clan.scores.R2}
+              </td>
+              <td class="col-score">
+                ${editingEnabled && isAdmin
+                  ? `<input type="number" min="1" max="10" step="0.1" value="${clan.scores.R3}" data-clan-name="${clan.name}" data-score="R3" class="score-input">`
+                  : clan.scores.R3}
+              </td>
+              <td class="col-score">${total}</td>
+            </tr>
+          `;
+        }).join("");
 
-      const setEditing = (enabled) => {
-        clanCells.forEach((cell) => {
-          cell.contentEditable = enabled ? "true" : "false";
-          cell.classList.toggle("editable", enabled);
-        });
-        btnEdit.disabled = enabled;
-        btnSave.disabled = !enabled;
-        status.textContent = enabled
-          ? "Modo edicion activo: haz clic en un nombre y escribelo."
-          : "Puedes editar los nombres cuando quieras.";
-      };
+        renderPodium(rows);
+      }
 
-      const saveChanges = () => {
-        const payload = {};
-        rows.forEach((row) => {
-          const key = getRowKey(row);
-          const nameCell = row.querySelector("td.clan-name");
-          const value = normalizeText(nameCell.textContent) || nameCell.dataset.original;
-          nameCell.textContent = value;
-          payload[key] = value;
-        });
+      function saveCurrentDataToLocalStorage() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      }
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-        syncPodiumNames();
-        setEditing(false);
-        status.textContent = "Cambios guardados correctamente.";
-      };
+      function exportJson() {
+        const json = JSON.stringify(currentData, null, 2);
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "clanes-final.json";
+        link.click();
+        URL.revokeObjectURL(url);
+        setStatus("JSON exportado correctamente.");
+      }
 
-      const restoreOriginals = () => {
-        clanCells.forEach((cell) => {
-          cell.textContent = cell.dataset.original;
-        });
-        localStorage.removeItem(STORAGE_KEY);
-        syncPodiumNames();
-        setEditing(false);
-        status.textContent = "Nombres restablecidos al valor original.";
-      };
-
-      const applySavedNames = () => {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          syncPodiumNames();
+      function checkAdminAccess() {
+        const token = localStorage.getItem(tokenKey);
+        if (!token) {
+          isAdmin = false;
+          btnEdit.disabled = true;
+          btnEdit.title = "Inicia sesion como administrador";
+          setStatus("Solo el administrador puede modificar puntajes.");
           return;
         }
 
-        try {
-          const saved = JSON.parse(raw);
-          rows.forEach((row) => {
-            const key = getRowKey(row);
-            const nameCell = row.querySelector("td.clan-name");
-            if (saved[key]) {
-              nameCell.textContent = normalizeText(saved[key]);
-            }
+        fetch("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Token invalido");
+            isAdmin = true;
+            btnEdit.disabled = false;
+            btnEdit.title = "Editar puntajes";
+            setStatus("Administrador autenticado. Puedes editar puntajes.");
+          })
+          .catch(() => {
+            isAdmin = false;
+            btnEdit.disabled = true;
+            btnEdit.title = "Inicia sesion como administrador";
+            setStatus("Solo el administrador puede modificar puntajes.");
           });
-          syncPodiumNames();
-        } catch (error) {
-          localStorage.removeItem(STORAGE_KEY);
-          syncPodiumNames();
+      }
+
+      function toggleEditMode() {
+        if (!isAdmin) {
+          setStatus("Solo el administrador puede modificar puntajes.");
+          return;
         }
-      };
 
-      btnEdit.addEventListener("click", () => {
-        setEditing(true);
-      });
+        editingEnabled = !editingEnabled;
+        btnSave.disabled = !editingEnabled;
+        btnEdit.textContent = editingEnabled ? "Cancelar" : "Editar puntajes";
+        setStatus(
+          editingEnabled
+            ? "Modo de edicion activo: ajusta los numeros entre 1 y 10 y guarda."
+            : "Cambios guardados en el navegador."
+        );
+        renderTable();
+      }
 
-      btnSave.addEventListener("click", () => {
-        saveChanges();
-      });
+      function saveEdits() {
+        if (!isAdmin) {
+          setStatus("No tienes permiso para guardar cambios.");
+          return;
+        }
 
-      btnReset.addEventListener("click", () => {
-        restoreOriginals();
-      });
+        const inputs = Array.from(document.querySelectorAll(".score-input"));
+        if (!inputs.length) {
+          editingEnabled = false;
+          btnSave.disabled = true;
+          btnEdit.textContent = "Editar puntajes";
+          renderTable();
+          return;
+        }
 
-      applySavedNames();
-      setEditing(false);
+        const updated = currentData.map((clan) => {
+          const next = { ...clan, scores: { ...clan.scores } };
+          for (const round of ["R1", "R2", "R3"]) {
+            const input = inputs.find((item) => item.dataset.clanName === clan.name && item.dataset.score === round);
+            const value = clampScore(input ? input.value : next.scores[round]);
+            next.scores[round] = value;
+          }
+          return next;
+        });
+
+        currentData = updated;
+        saveCurrentDataToLocalStorage();
+        editingEnabled = false;
+        btnSave.disabled = true;
+        btnEdit.textContent = "Editar puntajes";
+        renderTable();
+        setStatus("Puntajes actualizados y guardados en JSON local.");
+      }
+
+      function restoreOriginals() {
+        currentData = normalizeData(structuredClone(baseData));
+        saveCurrentDataToLocalStorage();
+        editingEnabled = false;
+        btnSave.disabled = true;
+        btnEdit.textContent = "Editar puntajes";
+        renderTable();
+        setStatus("Se restauraron los puntajes originales.");
+      }
+
+      async function loadData() {
+        try {
+          const response = await fetch(SOURCE_URL);
+          if (!response.ok) throw new Error("No se pudo cargar el JSON");
+          const serverData = await response.json();
+          baseData = normalizeData(serverData);
+
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            try {
+              const parsed = JSON.parse(saved);
+              currentData = normalizeData(parsed);
+            } catch (error) {
+              currentData = [...baseData];
+            }
+          } else {
+            currentData = [...baseData];
+          }
+
+          renderTable();
+          checkAdminAccess();
+        } catch (error) {
+          setStatus("No se pudo cargar la tabla de puntajes.");
+        }
+      }
+
+      btnEdit.addEventListener("click", toggleEditMode);
+      btnSave.addEventListener("click", saveEdits);
+      btnReset.addEventListener("click", restoreOriginals);
+      btnExport.addEventListener("click", exportJson);
+
+      loadData();
     })();
   </script>
 </body>

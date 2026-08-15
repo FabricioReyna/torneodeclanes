@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARQUICRAFT | Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #0b0b10;
+      --bg-2: #12121a;
+      --surface: #181824;
+      --surface-2: #202033;
+      --text-main: #f4f5f7;
+      --text-soft: #c8cbe0;
+      --gold: #ffd24a;
+      --gold-2: #f4b400;
+      --arcane: #6a5cff;
+      --arcane-2: #4b39ff;
+      --border: #2e3152;
+      --max-width: 1120px;
+      --radius: 18px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+
+    .container { width: min(92%, var(--max-width)); margin-inline: auto; }
+    .top-nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(8px);
+      background: rgba(11, 11, 16, 0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .top-nav .container {
+      display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 1rem;
+    }
+    .brand-mark, .nav-link {
+      text-decoration: none; color: var(--text-main); font-weight: 700;
+    }
+    .brand-mark {
+      font-family: "Press Start 2P", cursive; font-size: 0.75rem; letter-spacing: 0.06em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+    .nav-link { color: var(--text-soft); }
+    .nav-link:hover { color: var(--gold); }
+
+    main { padding: 3rem 0; }
+    .panel {
+      background: linear-gradient(160deg, rgba(24,24,36,0.95), rgba(21,20,35,0.9));
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow);
+    }
+    .section-title {
+      font-family: "Press Start 2P", cursive; font-size: clamp(1.1rem, 3vw, 1.8rem); line-height: 1.4; margin-bottom: 1rem;
+    }
+    .admin-grid {
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.25rem; align-items: start;
+    }
+    .admin-card {
+      background: linear-gradient(160deg, var(--surface), var(--surface-2)); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow);
+    }
+    .login-form, .clan-form { display: grid; gap: 0.9rem; }
+    .input-wrap { display: grid; gap: 0.35rem; }
+    .input-wrap label { font-size: 0.86rem; font-weight: 700; color: #d7d9ed; }
+    .login-input {
+      width: 100%; border-radius: 10px; border: 1px solid #323556; background: #10111a; color: var(--text-main); padding: 0.75rem 0.9rem; font: inherit; outline: none;
+    }
+    .login-input:focus { border-color: rgba(106, 92, 255, 0.85); box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.2); }
+    .cta, .cta-ghost, .mini-btn {
+      display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; padding: 0.9rem 1.2rem; text-decoration: none; font-weight: 700; cursor: pointer; font: inherit;
+    }
+    .cta {
+      background: linear-gradient(120deg, var(--arcane), var(--arcane-2)); color: white; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 10px 25px rgba(75,57,255,0.35);
+    }
+    .cta-ghost {
+      color: var(--text-main); border: 1px solid rgba(255,210,74,0.4); background: linear-gradient(130deg, rgba(255,210,74,0.1), rgba(255,210,74,0.06));
+    }
+    .login-status { min-height: 1.4rem; font-size: 0.92rem; font-weight: 700; }
+    .ok { color: #79ffa5; }
+    .error { color: #ff8e9a; }
+    .admin-panel { display: none; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 1rem; gap: 1rem; }
+    .admin-panel.visible { display: grid; }
+    .clans-list { display: grid; gap: 0.55rem; max-height: 300px; overflow: auto; padding-right: 0.2rem; }
+    .clan-item {
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.7rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; background: rgba(8,9,14,0.7);
+    }
+    .clan-meta { font-size: 0.84rem; color: var(--text-soft); }
+    .mini-btn { border: 1px solid rgba(255,142,154,0.45); color: #ffdbe0; background: rgba(140,40,55,0.25); }
+    .judge-identity { display: flex; gap: 0.9rem; align-items: center; margin-bottom: 1rem; padding: 0.8rem; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; background: rgba(10,11,18,0.7); }
+    .judge-skin { width: 64px; height: 64px; border-radius: 10px; image-rendering: pixelated; border: 1px solid rgba(255,255,255,0.22); background: #0e0f16; }
+    .score-grid { display: grid; grid-template-columns: 1fr auto; gap: 0.7rem; align-items: end; }
+    .score-value {
+      min-width: 44px; text-align: center; font-size: 1.05rem; font-weight: 800; padding: 0.6rem 0.4rem; border-radius: 10px; color: #10111a; background: linear-gradient(130deg, var(--gold), #ffe689); border: 1px solid rgba(255,255,255,0.35);
+    }
+    @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav class="top-nav" aria-label="Navegación principal">
+    <div class="container">
+      <a class="brand-mark" href="/">ARQUICRAFT</a>
+      <div class="nav-links">
+        <a class="nav-link" href="/">Inicio</a>
+        <a class="nav-link" href="/admin.html">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container panel">
+      <h1 class="section-title">Panel de administración</h1>
+      <div class="admin-grid">
+        <section class="admin-card">
+          <form id="adminLoginForm" class="login-form">
+            <div class="input-wrap">
+              <label for="adminUser">Usuario</label>
+              <input id="adminUser" class="login-input" type="text" autocomplete="username" required />
+            </div>
+            <div class="input-wrap">
+              <label for="adminPass">Contraseña</label>
+              <input id="adminPass" class="login-input" type="password" autocomplete="current-password" required />
+            </div>
+            <button class="cta" type="submit">Entrar</button>
+            <div id="loginStatus" class="login-status" aria-live="polite"></div>
+          </form>
+
+          <div id="adminPanel" class="admin-panel" aria-live="polite">
+            <section>
+              <h3>Clanes</h3>
+              <div class="admin-actions" style="margin: 0.8rem 0; gap: 0.7rem; display:flex; flex-wrap: wrap;">
+                <button class="cta-ghost" id="refreshClans" type="button">Actualizar</button>
+              </div>
+              <div id="clansList" class="clans-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <aside class="admin-card">
+          <h3>Acciones rápidas</h3>
+          <p class="admin-note">Desde aquí el administrador puede iniciar sesión y revisar el estado del torneo.</p>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const apiBase = "/api";
+    const storageKey = "arquicraft_admin_token";
+
+    const adminForm = document.getElementById("adminLoginForm");
+    const loginStatus = document.getElementById("loginStatus");
+    const adminPanel = document.getElementById("adminPanel");
+    const clansList = document.getElementById("clansList");
+    const refreshClansBtn = document.getElementById("refreshClans");
+
+    function setStatus(element, text, ok) {
+      element.textContent = text;
+      element.className = ok ? "login-status ok" : "login-status error";
+    }
+
+    function getToken() {
+      return localStorage.getItem(storageKey);
+    }
+
+    function setToken(token) {
+      localStorage.setItem(storageKey, token);
+    }
+
+    function showPanel() {
+      adminPanel.classList.add("visible");
+    }
+
+    function hidePanel() {
+      adminPanel.classList.remove("visible");
+    }
+
+    async function apiRequest(path, options = {}) {
+      const token = getToken();
+      const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      };
+
+      if (token) headers.Authorization = `Bearer ${token}`;
+
+      const response = await fetch(`${apiBase}${path}`, { ...options, headers });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.message || "Error en la solicitud");
+      }
+      return data;
+    }
+
+    function renderAdminClans(clans) {
+      if (!Array.isArray(clans) || clans.length === 0) {
+        clansList.innerHTML = "<p class='admin-note'>Aun no hay clanes cargados.</p>";
+        return;
+      }
+
+      clansList.innerHTML = [...clans].sort((a, b) => a.name.localeCompare(b.name, "es"))
+        .map((clan) => `
+          <article class="clan-item">
+            <div>
+              <strong>${clan.name}</strong>
+              <p class="clan-meta">Lider: ${clan.leader} | Miembros: ${clan.membersCount} | ${clan.phase}</p>
+            </div>
+            <button class="mini-btn" data-delete-id="${clan._id}">Eliminar</button>
+          </article>
+        `).join("");
+    }
+
+    async function loadClans() {
+      const clans = await apiRequest("/clans", { method: "GET" });
+      renderAdminClans(clans);
+    }
+
+    async function trySessionLogin() {
+      const token = getToken();
+      if (!token) {
+        hidePanel();
+        return;
+      }
+
+      try {
+        await apiRequest("/auth/me", { method: "GET" });
+        showPanel();
+        await loadClans();
+      } catch (error) {
+        localStorage.removeItem(storageKey);
+        hidePanel();
+      }
+    }
+
+    adminForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const user = document.getElementById("adminUser").value.trim();
+      const pass = document.getElementById("adminPass").value.trim();
+
+      if (!user || !pass) {
+        setStatus(loginStatus, "Completa usuario y contraseña para continuar.", false);
+        return;
+      }
+
+      try {
+        const data = await apiRequest("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ username: user, password: pass })
+        });
+
+        setToken(data.token);
+        setStatus(loginStatus, "Acceso concedido al panel de administración.", true);
+        showPanel();
+        await loadClans();
+      } catch (error) {
+        hidePanel();
+        setStatus(loginStatus, error.message || "Credenciales inválidas.", false);
+      }
+    });
+
+    refreshClansBtn.addEventListener("click", async function () {
+      try {
+        await loadClans();
+        setStatus(loginStatus, "Lista actualizada.", true);
+      } catch (error) {
+        setStatus(loginStatus, error.message || "No se pudo actualizar la lista.", false);
+      }
+    });
+
+    clansList.addEventListener("click", async function (event) {
+      const deleteId = event.target.getAttribute("data-delete-id");
+      if (!deleteId) return;
+
+      const confirmed = window.confirm("¿Quieres eliminar este clan?");
+      if (!confirmed) return;
+
+      try {
+        await apiRequest(`/clans/${deleteId}`, { method: "DELETE" });
+        await loadClans();
+      } catch (error) {
+        setStatus(loginStatus, error.message || "No se pudo eliminar.", false);
+      }
+    });
+
+    trySessionLogin();
+  </script>
+</body>
+</html>
