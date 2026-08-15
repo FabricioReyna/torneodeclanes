@@ -935,6 +935,7 @@
 
         <div id="adminToolbar" class="admin-toolbar hidden">
           <button id="toggleEditMode" class="cta-button primary" type="button">Editar puntajes</button>
+          <button id="sortRankingBtn" class="cta-button secondary" type="button">Ordenar por puntaje</button>
           <button id="resetScoresBtn" class="cta-button danger" type="button">Restablecer a 0</button>
           <button id="saveRankingBtn" class="cta-button secondary" type="button" disabled>Guardar</button>
           <button id="cancelEditMode" class="cta-button ghost" type="button">Cancelar</button>
@@ -979,6 +980,7 @@
     const toolbar = document.getElementById("adminToolbar");
     const toggleEditBtn = document.getElementById("toggleEditMode");
     const resetScoresBtn = document.getElementById("resetScoresBtn");
+    const sortRankingBtn = document.getElementById("sortRankingBtn");
     const saveBtn = document.getElementById("saveRankingBtn");
     const cancelBtn = document.getElementById("cancelEditMode");
     const navLoginLink = document.getElementById("navLoginLink");
@@ -1126,11 +1128,8 @@
       input.select();
     }
 
-    function renderRankingTable() {
-      const container = document.getElementById("landingRanking");
-      if (!container) return;
-
-      const ordered = [...rankingData]
+    function sortRankingByScore() {
+      rankingData = [...rankingData]
         .map((clan) => ({
           ...clan,
           boantek: Number(clan?.boantek ?? 0),
@@ -1143,17 +1142,31 @@
           return totalB - totalA || (a.name || "").localeCompare(b.name || "", "es");
         });
 
-      container.innerHTML = ordered
+      renderRankingTable();
+      setLoginStatus("Tabla ordenada por puntaje.");
+    }
+
+    function renderRankingTable() {
+      const container = document.getElementById("landingRanking");
+      if (!container) return;
+
+      container.innerHTML = rankingData
         .map((clan) => {
-          const total = clan.boantek + clan.daviale + clan.vegettagaymer;
-          const clanName = formatClanName(clan.name);
+          const normalizedClan = {
+            ...clan,
+            boantek: Number(clan?.boantek ?? 0),
+            daviale: Number(clan?.daviale ?? 0),
+            vegettagaymer: Number(clan?.vegettagaymer ?? 0)
+          };
+          const total = normalizedClan.boantek + normalizedClan.daviale + normalizedClan.vegettagaymer;
+          const clanName = formatClanName(normalizedClan.name);
 
           return `
             <tr>
               <td class="clan-name"><span class="clan-name-badge">${clanName}</span></td>
-              <td class="score-cell" data-name="${clan.name}" data-judge="boantek" data-value="${clan.boantek}">${clan.boantek}</td>
-              <td class="score-cell" data-name="${clan.name}" data-judge="daviale" data-value="${clan.daviale}">${clan.daviale}</td>
-              <td class="score-cell" data-name="${clan.name}" data-judge="vegettagaymer" data-value="${clan.vegettagaymer}">${clan.vegettagaymer}</td>
+              <td class="score-cell" data-name="${normalizedClan.name}" data-judge="boantek" data-value="${normalizedClan.boantek}">${normalizedClan.boantek}</td>
+              <td class="score-cell" data-name="${normalizedClan.name}" data-judge="daviale" data-value="${normalizedClan.daviale}">${normalizedClan.daviale}</td>
+              <td class="score-cell" data-name="${normalizedClan.name}" data-judge="vegettagaymer" data-value="${normalizedClan.vegettagaymer}">${normalizedClan.vegettagaymer}</td>
               <td><strong>${total}</strong></td>
             </tr>
           `;
@@ -1250,6 +1263,7 @@
 
     navLogoutBtn.addEventListener("click", logoutAdmin);
     toggleEditBtn.addEventListener("click", toggleEditor);
+    sortRankingBtn.addEventListener("click", sortRankingByScore);
     resetScoresBtn.addEventListener("click", resetScoresToZero);
     saveBtn.addEventListener("click", saveRanking);
     cancelBtn.addEventListener("click", cancelEdit);
