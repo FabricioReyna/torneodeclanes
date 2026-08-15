@@ -989,6 +989,7 @@
     let rankingData = [];
     let editingEnabled = false;
     let adminLoggedIn = false;
+    let activeEditCell = null;
 
     function setLoginStatus(message, isError = false) {
       if (!statusBox) return;
@@ -1080,6 +1081,12 @@
       const clanName = scoreCell.dataset.name;
       const currentValue = scoreCell.dataset.value;
 
+      if (activeEditCell && activeEditCell !== scoreCell) {
+        activeEditCell.innerHTML = String(activeEditCell.dataset.value ?? 0);
+      }
+
+      activeEditCell = scoreCell;
+
       const input = document.createElement("input");
       input.type = "number";
       input.min = "0";
@@ -1090,6 +1097,8 @@
       input.setAttribute("aria-label", `Cambiar puntaje para ${clanName} en ${judge}`);
 
       input.addEventListener("blur", async () => {
+        if (activeEditCell !== scoreCell) return;
+
         const nextValue = clampScore(input.value);
         const previousValue = Number(scoreCell.dataset.value ?? 0);
 
@@ -1107,10 +1116,11 @@
           toggleEditBtn.textContent = "Cancelar";
           renderRankingTable();
           await saveRanking({ silent: true });
-          return;
+        } else {
+          renderRankingTable();
         }
 
-        renderRankingTable();
+        activeEditCell = null;
       });
 
       input.addEventListener("keydown", (eventKey) => {
@@ -1118,6 +1128,7 @@
           input.blur();
         }
         if (eventKey.key === "Escape") {
+          activeEditCell = null;
           renderRankingTable();
         }
       });
@@ -1181,6 +1192,10 @@
     }
 
     async function loadLandingRanking() {
+      if (activeEditCell) {
+        return;
+      }
+
       try {
         const response = await fetch(`/clanes-final.json?ts=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error("No se pudo cargar el ranking");
