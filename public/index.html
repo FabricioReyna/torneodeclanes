@@ -263,6 +263,108 @@
       color: var(--gold);
     }
 
+    .nav-button {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 210, 74, 0.35);
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      color: var(--text-main);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .nav-button:hover,
+    .nav-button:focus-visible {
+      background: rgba(255, 210, 74, 0.1);
+      color: var(--gold);
+    }
+
+    .public-admin-status {
+      min-height: 1.5rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+
+    .public-admin-status.ok {
+      color: #8ef0b4;
+    }
+
+    .public-admin-status.error {
+      color: #ff9aa5;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background: rgba(10, 11, 18, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 0.72rem 1rem;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus-visible {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .cta-button.primary {
+      background: linear-gradient(135deg, var(--gold), #ffdf76);
+      color: #111318;
+      box-shadow: 0 8px 18px rgba(255, 210, 74, 0.24);
+    }
+
+    .cta-button.secondary {
+      background: linear-gradient(135deg, var(--arcane), var(--arcane-2));
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(106, 92, 255, 0.3);
+    }
+
+    .cta-button.ghost {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: rgba(255, 255, 255, 0.14);
+      color: var(--text-main);
+    }
+
+    .cta-button.danger {
+      background: linear-gradient(135deg, rgba(255, 122, 122, 0.2), rgba(255, 122, 122, 0.08));
+      border-color: rgba(255, 128, 128, 0.38);
+      color: #ffdfe3;
+    }
+
+    .cta-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      filter: grayscale(0.2);
+      box-shadow: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     .admin-grid {
       display: grid;
       grid-template-columns: 1.15fr 1fr;
@@ -576,47 +678,149 @@
     .ranking-table-wrap {
       width: 100%;
       overflow-x: auto;
-      margin-top: 1rem;
+      margin-top: 1.2rem;
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
     }
 
     .ranking-table {
       width: 100%;
-      min-width: 700px;
-      border-collapse: collapse;
-      background: linear-gradient(160deg, rgba(24, 24, 36, 0.95), rgba(21, 20, 35, 0.9));
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      min-width: 760px;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: rgba(15, 17, 27, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
       overflow: hidden;
     }
 
     .ranking-table th,
     .ranking-table td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.9rem 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 1rem 0.9rem;
       text-align: center;
       color: var(--text-main);
+      vertical-align: middle;
     }
 
     .ranking-table thead th {
-      background: rgba(255, 210, 74, 0.08);
-      color: #fff3c6;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
+      background: linear-gradient(180deg, rgba(255, 210, 74, 0.12), rgba(255, 210, 74, 0.05));
+      color: #fff5c7;
+      font-size: 0.78rem;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
+      font-weight: 800;
+      padding-top: 0.95rem;
+      padding-bottom: 0.95rem;
+    }
+
+    .judge-header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      text-transform: none;
+      letter-spacing: 0;
+      white-space: nowrap;
+      font-weight: 800;
+      font-size: 1.08rem;
+      text-transform: capitalize;
+    }
+
+    .judge-header img {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.04);
+      image-rendering: pixelated;
+    }
+
+    .ranking-table tbody tr {
+      transition: background 150ms ease, transform 150ms ease;
+    }
+
+    .ranking-table tbody tr:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.015);
     }
 
     .ranking-table tbody tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(106, 92, 255, 0.035);
+    }
+
+    .ranking-table tbody tr:first-child {
+      background: linear-gradient(90deg, rgba(255, 210, 74, 0.12), rgba(255, 210, 74, 0.04));
+    }
+
+    .ranking-table tbody tr:first-child td {
+      color: #fff4c6;
+      font-weight: 800;
     }
 
     .ranking-table tbody tr:hover {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .ranking-table .clan-name {
       text-align: left;
       font-weight: 800;
       color: var(--text-main);
+      letter-spacing: 0.02em;
+      font-size: 1.15rem;
+    }
+
+    .clan-name-badge {
+      display: inline-flex;
+      align-items: center;
+      min-width: 170px;
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: 0.04em;
+      padding: 0;
+      border: none;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-transform: capitalize;
+    }
+
+    .ranking-table tbody td:nth-last-child(1) {
+      font-weight: 800;
+      color: #dfe9ff;
+    }
+
+    .score-cell {
+      position: relative;
+      cursor: pointer;
+      transition: background 150ms ease, color 150ms ease;
+    }
+
+    .score-cell:hover {
+      background: rgba(255, 210, 74, 0.08);
+    }
+
+    .score-editor {
+      width: 100%;
+      max-width: 84px;
+      margin: 0 auto;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 210, 74, 0.6);
+      background: rgba(10, 12, 18, 0.95);
+      color: var(--text-main);
+      font: inherit;
+      font-weight: 800;
+      text-align: center;
+      padding: 0.5rem 0.45rem;
+      box-shadow: 0 0 0 3px rgba(255, 210, 74, 0.12);
+    }
+
+    .score-editor:focus {
+      outline: none;
+      border-color: rgba(106, 92, 255, 0.85);
+      box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.2);
     }
 
     .judge-link {
@@ -718,7 +922,8 @@
       <a class="brand-mark" href="#inicio">ARQUICRAFT</a>
       <div class="nav-links">
         <a class="nav-link" href="#inicio">Inicio</a>
-        <a class="nav-link" href="/admin.html">Login</a>
+        <a id="navLoginLink" class="nav-link" href="/login">Login</a>
+        <button id="navLogoutBtn" class="nav-link nav-button hidden" type="button">Logout</button>
       </div>
     </div>
   </nav>
@@ -726,19 +931,38 @@
   <main>
     <section id="inicio" aria-labelledby="ranking-inicial-title">
       <div class="container panel">
-        <h2 class="section-title" id="ranking-inicial-title">Ranking inicial</h2>
-        <p class="lead">
-          Todos los clanes aparecen con puntaje inicial en 0 mientras se desarrolla la competencia.
-        </p>
+        <div id="publicAdminStatus" class="public-admin-status" aria-live="polite"></div>
+
+        <div id="adminToolbar" class="admin-toolbar hidden">
+          <button id="toggleEditMode" class="cta-button primary" type="button">Editar puntajes</button>
+          <button id="resetScoresBtn" class="cta-button danger" type="button">Restablecer a 0</button>
+          <button id="saveRankingBtn" class="cta-button secondary" type="button" disabled>Guardar</button>
+          <button id="cancelEditMode" class="cta-button ghost" type="button">Cancelar</button>
+        </div>
 
         <div class="ranking-table-wrap">
           <table class="ranking-table" aria-label="Tabla de puntajes del torneo en la portada">
             <thead>
               <tr>
                 <th>Clan</th>
-                <th>Boantek</th>
-                <th>Daviale</th>
-                <th>vegetta</th>
+                <th>
+                  <span class="judge-header">
+                    <img src="https://mc-heads.net/avatar/boantek/32" alt="Boantek" />
+                    <span>Boantek</span>
+                  </span>
+                </th>
+                <th>
+                  <span class="judge-header">
+                    <img src="https://mc-heads.net/avatar/daviale/32" alt="Daviale" />
+                    <span>Daviale</span>
+                  </span>
+                </th>
+                <th>
+                  <span class="judge-header">
+                    <img src="https://mc-heads.net/avatar/vegettagaymer/32" alt="vegetta" />
+                    <span>vegetta</span>
+                  </span>
+                </th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -750,43 +974,209 @@
   </main>
 
   <script>
-    async function loadLandingRanking() {
+    const ADMIN_TOKEN_KEY = "arquicraft_admin_token";
+    const statusBox = document.getElementById("publicAdminStatus");
+    const toolbar = document.getElementById("adminToolbar");
+    const toggleEditBtn = document.getElementById("toggleEditMode");
+    const resetScoresBtn = document.getElementById("resetScoresBtn");
+    const saveBtn = document.getElementById("saveRankingBtn");
+    const cancelBtn = document.getElementById("cancelEditMode");
+    const navLoginLink = document.getElementById("navLoginLink");
+    const navLogoutBtn = document.getElementById("navLogoutBtn");
+
+    let rankingData = [];
+    let editingEnabled = false;
+    let adminLoggedIn = false;
+
+    function setLoginStatus(message, isError = false) {
+      if (!statusBox) return;
+      statusBox.textContent = message;
+      statusBox.className = `public-admin-status ${isError ? "error" : "ok"}`;
+    }
+
+    function getToken() {
+      return localStorage.getItem(ADMIN_TOKEN_KEY);
+    }
+
+    function setToken(token) {
+      localStorage.setItem(ADMIN_TOKEN_KEY, token);
+    }
+
+    function clearToken() {
+      localStorage.removeItem(ADMIN_TOKEN_KEY);
+    }
+
+    function clampScore(value) {
+      const num = Number(value);
+      if (!Number.isFinite(num)) return 0;
+      return Math.min(10, Math.max(0, Math.round(num)));
+    }
+
+    function formatClanName(name) {
+      return (name || "Clan")
+        .toLowerCase()
+        .replace(/(^|\s)([a-záéíóúüñ])/g, (_, prefix, letter) => prefix + letter.toUpperCase());
+    }
+
+    function persistInlineValue(clanName, judge, value) {
+      rankingData = rankingData.map((clan) => {
+        if (clan.name !== clanName) return clan;
+        return {
+          ...clan,
+          [judge]: clampScore(value)
+        };
+      });
+
+      editingEnabled = true;
+      saveBtn.disabled = false;
+      toggleEditBtn.textContent = "Cancelar";
+      renderRankingTable();
+    }
+
+    async function saveRanking(options = {}) {
+      if (!adminLoggedIn) return;
+
+      const { silent = false } = options;
+
+      try {
+        const response = await fetch("/api/admin/ranking", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`
+          },
+          body: JSON.stringify({ clans: rankingData })
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.message || "No se pudo guardar el ranking.");
+        }
+
+        editingEnabled = false;
+        saveBtn.disabled = true;
+        toggleEditBtn.textContent = "Editar puntajes";
+        renderRankingTable();
+
+        if (!silent) {
+          setLoginStatus("Cambios guardados correctamente.");
+        }
+      } catch (error) {
+        if (!silent) {
+          setLoginStatus(error.message || "No se pudo guardar.", true);
+        }
+      }
+    }
+
+    function handleDoubleClickEdit(event) {
+      if (!adminLoggedIn) return;
+
+      const scoreCell = event.target.closest(".score-cell");
+      if (!scoreCell) return;
+
+      const judge = scoreCell.dataset.judge;
+      const clanName = scoreCell.dataset.name;
+      const currentValue = scoreCell.dataset.value;
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "0";
+      input.max = "10";
+      input.step = "1";
+      input.value = currentValue;
+      input.className = "score-editor";
+      input.setAttribute("aria-label", `Cambiar puntaje para ${clanName} en ${judge}`);
+
+      input.addEventListener("blur", async () => {
+        const nextValue = clampScore(input.value);
+        const previousValue = Number(scoreCell.dataset.value ?? 0);
+
+        if (nextValue !== previousValue) {
+          rankingData = rankingData.map((clan) => {
+            if (clan.name !== clanName) return clan;
+            return {
+              ...clan,
+              [judge]: nextValue
+            };
+          });
+
+          editingEnabled = true;
+          saveBtn.disabled = false;
+          toggleEditBtn.textContent = "Cancelar";
+          renderRankingTable();
+          await saveRanking({ silent: true });
+          return;
+        }
+
+        renderRankingTable();
+      });
+
+      input.addEventListener("keydown", (eventKey) => {
+        if (eventKey.key === "Enter") {
+          input.blur();
+        }
+        if (eventKey.key === "Escape") {
+          renderRankingTable();
+        }
+      });
+
+      scoreCell.innerHTML = "";
+      scoreCell.appendChild(input);
+      input.focus();
+      input.select();
+    }
+
+    function renderRankingTable() {
       const container = document.getElementById("landingRanking");
       if (!container) return;
 
+      const ordered = [...rankingData]
+        .map((clan) => ({
+          ...clan,
+          boantek: Number(clan?.boantek ?? 0),
+          daviale: Number(clan?.daviale ?? 0),
+          vegettagaymer: Number(clan?.vegettagaymer ?? 0)
+        }))
+        .sort((a, b) => {
+          const totalA = a.boantek + a.daviale + a.vegettagaymer;
+          const totalB = b.boantek + b.daviale + b.vegettagaymer;
+          return totalB - totalA || (a.name || "").localeCompare(b.name || "", "es");
+        });
+
+      container.innerHTML = ordered
+        .map((clan) => {
+          const total = clan.boantek + clan.daviale + clan.vegettagaymer;
+          const clanName = formatClanName(clan.name);
+
+          return `
+            <tr>
+              <td class="clan-name"><span class="clan-name-badge">${clanName}</span></td>
+              <td class="score-cell" data-name="${clan.name}" data-judge="boantek" data-value="${clan.boantek}">${clan.boantek}</td>
+              <td class="score-cell" data-name="${clan.name}" data-judge="daviale" data-value="${clan.daviale}">${clan.daviale}</td>
+              <td class="score-cell" data-name="${clan.name}" data-judge="vegettagaymer" data-value="${clan.vegettagaymer}">${clan.vegettagaymer}</td>
+              <td><strong>${total}</strong></td>
+            </tr>
+          `;
+        })
+        .join("");
+
+      if (adminLoggedIn && editingEnabled) {
+        container.querySelectorAll(".score-cell").forEach((cell) => {
+          cell.title = "Doble clic para editar";
+        });
+      }
+    }
+
+    async function loadLandingRanking() {
       try {
-        const response = await fetch("/clanes-final.json");
+        const response = await fetch(`/clanes-final.json?ts=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error("No se pudo cargar el ranking");
 
-        const clans = await response.json();
-        const ordered = [...(Array.isArray(clans) ? clans : [])]
-          .map((clan) => ({
-            ...clan,
-            boantek: Number(clan?.boantek ?? 0),
-            daviale: Number(clan?.daviale ?? 0),
-            vegettagaymer: Number(clan?.vegettagaymer ?? 0)
-          }))
-          .sort((a, b) => {
-            const totalA = a.boantek + a.daviale + a.vegettagaymer;
-            const totalB = b.boantek + b.daviale + b.vegettagaymer;
-            return totalB - totalA || (a.name || "").localeCompare(b.name || "", "es");
-          });
-
-        container.innerHTML = ordered
-          .map((clan) => {
-            const total = clan.boantek + clan.daviale + clan.vegettagaymer;
-            return `
-              <tr>
-                <td class="clan-name">${clan.name || "Clan"}</td>
-                <td>${clan.boantek}</td>
-                <td>${clan.daviale}</td>
-                <td>${clan.vegettagaymer}</td>
-                <td><strong>${total}</strong></td>
-              </tr>
-            `;
-          })
-          .join("");
+        rankingData = await response.json();
+        renderRankingTable();
       } catch (error) {
+        const container = document.getElementById("landingRanking");
+        if (!container) return;
         container.innerHTML = `
           <tr>
             <td colspan="5" class="clan-name">No se pudo cargar el ranking inicial.</td>
@@ -795,7 +1185,79 @@
       }
     }
 
+    async function resetScoresToZero() {
+      if (!adminLoggedIn) return;
+
+      rankingData = rankingData.map((clan) => ({
+        ...clan,
+        boantek: 0,
+        daviale: 0,
+        vegettagaymer: 0
+      }));
+
+      editingEnabled = true;
+      saveBtn.disabled = false;
+      toggleEditBtn.textContent = "Cancelar";
+      setLoginStatus("Todos los puntajes quedaron en 0.");
+      renderRankingTable();
+      await saveRanking({ silent: true });
+    }
+
+    function toggleEditor() {
+      if (!adminLoggedIn) return;
+      editingEnabled = !editingEnabled;
+      saveBtn.disabled = !editingEnabled;
+      toggleEditBtn.textContent = editingEnabled ? "Cancelar" : "Editar puntajes";
+      setLoginStatus(editingEnabled ? "Doble clic en cualquier puntaje para editarlo." : "Edición cancelada.");
+      renderRankingTable();
+    }
+
+    function cancelEdit() {
+      if (!adminLoggedIn) return;
+      editingEnabled = false;
+      saveBtn.disabled = true;
+      toggleEditBtn.textContent = "Editar puntajes";
+      renderRankingTable();
+      setLoginStatus("Cambios descartados.");
+    }
+
+    function initAdminSession() {
+      const token = getToken();
+      adminLoggedIn = Boolean(token);
+
+      if (adminLoggedIn) {
+        toolbar.classList.remove("hidden");
+        navLoginLink.classList.add("hidden");
+        navLogoutBtn.classList.remove("hidden");
+        setLoginStatus("Administrador conectado.");
+      } else {
+        toolbar.classList.add("hidden");
+        navLoginLink.classList.remove("hidden");
+        navLogoutBtn.classList.add("hidden");
+      }
+    }
+
+    function logoutAdmin() {
+      clearToken();
+      adminLoggedIn = false;
+      editingEnabled = false;
+      saveBtn.disabled = true;
+      toggleEditBtn.textContent = "Editar puntajes";
+      initAdminSession();
+      renderRankingTable();
+      setLoginStatus("Sesión cerrada.");
+    }
+
+    navLogoutBtn.addEventListener("click", logoutAdmin);
+    toggleEditBtn.addEventListener("click", toggleEditor);
+    resetScoresBtn.addEventListener("click", resetScoresToZero);
+    saveBtn.addEventListener("click", saveRanking);
+    cancelBtn.addEventListener("click", cancelEdit);
+    document.getElementById("landingRanking").addEventListener("dblclick", handleDoubleClickEdit);
+
     loadLandingRanking();
+    initAdminSession();
+    setInterval(loadLandingRanking, 4000);
   </script>
 </body>
 </html>

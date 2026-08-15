@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARQUICRAFT | Login Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #0b0b10;
+      --bg-2: #12121a;
+      --surface: #181824;
+      --surface-2: #202033;
+      --text-main: #f4f5f7;
+      --text-soft: #c8cbe0;
+      --gold: #ffd24a;
+      --arcane: #6a5cff;
+      --arcane-2: #4b39ff;
+      --border: #2e3152;
+      --radius: 18px;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      --ok: #7ef0b6;
+      --error: #ff8f9e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Montserrat", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+    .login-shell {
+      width: min(100%, 460px);
+      background: linear-gradient(160deg, rgba(24,24,36,0.96), rgba(21,20,35,0.94));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+    }
+    .brand {
+      font-family: "Press Start 2P", cursive;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--gold);
+    }
+    h1 {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    form {
+      display: grid;
+      gap: 0.9rem;
+    }
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+    input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #10111a;
+      color: var(--text-main);
+      padding: 0.8rem 0.9rem;
+      font: inherit;
+    }
+    input:focus {
+      outline: none;
+      border-color: rgba(106, 92, 255, 0.85);
+      box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.2);
+    }
+    button {
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(120deg, var(--arcane), var(--arcane-2));
+      color: white;
+      padding: 0.9rem 1.1rem;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .status {
+      min-height: 1.25rem;
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-top: 0.4rem;
+    }
+    .status.ok { color: var(--ok); }
+    .status.error { color: var(--error); }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--text-soft);
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-shell">
+    <div class="brand">ARQUICRAFT</div>
+    <h1>Login admin</h1>
+    <form id="loginForm">
+      <label>
+        Usuario
+        <input id="username" type="text" autocomplete="username" placeholder="admin" required />
+      </label>
+      <label>
+        Contraseña
+        <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+      </label>
+      <button type="submit">Entrar</button>
+      <div id="status" class="status" aria-live="polite"></div>
+    </form>
+    <a class="back-link" href="/">Volver a la tabla</a>
+  </div>
+
+  <script>
+    const TOKEN_KEY = "arquicraft_admin_token";
+    const form = document.getElementById("loginForm");
+    const statusEl = document.getElementById("status");
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message;
+      statusEl.className = `status ${isError ? "error" : "ok"}`;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !password) {
+        setStatus("Completa usuario y contraseña.", true);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(data.message || "Credenciales inválidas.");
+        }
+
+        localStorage.setItem(TOKEN_KEY, data.token);
+        setStatus("Acceso correcto. Redirigiendo...");
+        window.location.href = "/";
+      } catch (error) {
+        localStorage.removeItem(TOKEN_KEY);
+        setStatus(error.message || "No se pudo iniciar sesión.", true);
+      }
+    });
+  </script>
+</body>
+</html>
