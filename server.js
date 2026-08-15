@@ -7,6 +7,11 @@ const Admin = require("./models/Admin");
 
 dotenv.config();
 
+if (!process.env.JWT_SECRET) {
+  process.env.JWT_SECRET = "dev-render-fallback-secret-change-me";
+  console.warn("Advertencia: JWT_SECRET no definido. Se usó un valor temporal para arrancar la app. Configurarlo en Render antes de producción.");
+}
+
 const app = buildApp({ serveStatic: true });
 const PORT = process.env.PORT || 3000;
 
@@ -31,10 +36,6 @@ async function ensureAdminExists() {
 
 async function startServer() {
   try {
-    if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET no esta definido en variables de entorno.");
-    }
-
     await connectDB();
     await ensureAdminExists();
     app.listen(PORT, () => {
